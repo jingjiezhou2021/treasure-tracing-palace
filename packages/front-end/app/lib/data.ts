@@ -7,7 +7,13 @@ import {
 	getProductOrders,
 	productExists,
 } from './contract-actions';
-import { companies, product_types, products, users } from '@/generated/prisma';
+import {
+	companies,
+	product_types,
+	products,
+	ProductStatus,
+	users,
+} from '@/generated/prisma';
 export async function fetchCompanies() {
 	return await prisma.companies.findMany();
 }
@@ -357,14 +363,17 @@ export async function fetchCommodoties() {
 			return (
 				p.currentOwnerId === c.creatorId ||
 				p.creatorId === c.creatorId ||
-				p.currentOwner.companiesId === c.creator.companiesId
+				p.currentOwner.companiesId === c.creator.companiesId ||
+				p.currentOwner.companiesId === c.creator.foundedCompany[0]?.id
 			);
 		});
 	});
 	return ret;
 }
 
-export async function fetchCommodotiesByUser(user: users) {
+export async function fetchCommodotiesByUser(
+	user: users & { foundedCompany: companies[] },
+) {
 	return await prisma.commodoty.findMany({
 		where: {
 			creatorId: user.id,
@@ -381,8 +390,17 @@ export async function fetchCommodotiesByUser(user: users) {
 								{ creatorId: user.id },
 								{
 									type: {
-										companyId:
-											user.companiesId ?? undefined,
+										OR: [
+											{
+												companyId:
+													user.companiesId ??
+													undefined,
+											},
+											{
+												companyId:
+													user.foundedCompany[0]?.id,
+											},
+										],
 									},
 								},
 							],
@@ -400,7 +418,11 @@ export async function fetchCommodotyById(id: number) {
 			id,
 		},
 		include: {
-			creator: true,
+			creator: {
+				include: {
+					foundedCompany: true,
+				},
+			},
 			productType: {
 				include: {
 					products: {
@@ -415,9 +437,12 @@ export async function fetchCommodotyById(id: number) {
 	}))!;
 	ret.productType.products = ret?.productType.products.filter((p) => {
 		return (
-			p.currentOwnerId === ret.creatorId ||
-			p.creatorId === ret.creatorId ||
-			p.currentOwner.companiesId === ret.creator.companiesId
+			p.status === ProductStatus.FOR_SALE &&
+			(p.currentOwnerId === ret.creatorId ||
+				p.creatorId === ret.creatorId ||
+				p.currentOwner.companiesId === ret.creator.companiesId ||
+				p.currentOwner.companiesId ===
+					ret.creator.foundedCompany[0]?.id)
 		);
 	});
 	return ret;
