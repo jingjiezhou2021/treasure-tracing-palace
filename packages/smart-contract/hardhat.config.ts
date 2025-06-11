@@ -1,8 +1,9 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import { EtherscanConfig } from "@nomicfoundation/hardhat-verify/types";
 require('dotenv').config()
 
-const config: HardhatUserConfig = {
+const config: HardhatUserConfig&{etherscan:Partial<EtherscanConfig>} = {
   solidity: {
     version:"0.8.24",
     settings:{
