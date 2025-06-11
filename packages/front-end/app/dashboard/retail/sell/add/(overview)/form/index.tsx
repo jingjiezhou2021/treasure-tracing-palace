@@ -57,7 +57,7 @@ export default function AddSellForm({
 						return messageApi.success('添加商品到零售成功');
 					})
 					.then(() => {
-						router.back();
+						router.push('/dashboard/retail/sell');
 					})
 					.catch((err) => {
 						messageApi.error('添加商品到零售失败', err);

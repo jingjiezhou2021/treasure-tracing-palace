@@ -56,7 +56,7 @@ export default function ProductPurchaseForm({
 					return messageApi.success('购买商品成功');
 				})
 				.then(() => {
-					router.back();
+					router.push('/dashboard/purchase');
 				})
 				.catch(() => {
 					messageApi.error('购买商品失败');

@@ -41,7 +41,7 @@ export default function UpdateSellForm({
 						return messageApi.success('更新零售商品信息成功');
 					})
 					.then(() => {
-						router.back();
+						router.push('/dashboard/retail/sell');
 					});
 			}}
 		>

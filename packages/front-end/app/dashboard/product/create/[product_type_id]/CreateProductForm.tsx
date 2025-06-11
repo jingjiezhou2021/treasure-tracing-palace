@@ -55,7 +55,7 @@ export default function CreateProductForm({
 					type: 'success',
 					content: '添加商品记录成功',
 				});
-				router.replace('/dashboard/warehouse');
+				router.push('/dashboard/warehouse');
 			} catch (err) {
 				console.error(err);
 				messageApi.open({
