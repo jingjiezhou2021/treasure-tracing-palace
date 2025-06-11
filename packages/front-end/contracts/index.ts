@@ -23,7 +23,9 @@ export const createPlatformWallet = () => {
 	const client = createWalletClient({
 		account,
 		chain: sepolia,
-		transport: http(),
+		transport: http(
+			'https://eth-sepolia.g.alchemy.com/v2/IOBVWS4XbzpjncvRihnLsCdG_2rgkRAI',
+		),
 	});
 	return client;
 };
