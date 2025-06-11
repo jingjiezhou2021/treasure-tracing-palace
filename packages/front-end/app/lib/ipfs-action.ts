@@ -4,7 +4,9 @@ import toBuffer from 'it-to-buffer';
 const client = create('/ip4/127.0.0.1/tcp/5001');
 export async function uploadFile(file: File): Promise<string> {
 	const res = await client.add({ content: file });
-	return res.cid.toString();
+	const cid = res.cid.toString();
+	await client.files.cp(res.cid, `/${file.name}`);
+	return cid;
 }
 export async function getFileByCid(cid: string | undefined): Promise<Blob> {
 	console.log('this is the cid:', cid);
