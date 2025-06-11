@@ -52,6 +52,8 @@
     "eslint-plugin-react": "^7.37.5",
     "formik": "^2.4.6",
     "globals": "^16.0.0",
+    "it-to-buffer": "^4.0.10",
+    "kubo-rpc-client": "^5.1.0",
     "moralis": "^2.27.2",
     "pinata": "^1.0.0",
     "pino-pretty": "^13.0.0",

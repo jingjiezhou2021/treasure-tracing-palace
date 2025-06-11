@@ -1,4 +1,4 @@
-import { getFileByCid, pinata, uploadFile } from '@/app/lib/ipfs-action';
+import { getFileByCid, uploadFile } from '@/app/lib/ipfs-action';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
 	const cid = request.nextUrl.searchParams.get('cid')!;
 	const file = await getFileByCid(cid);
 	const response = new NextResponse(file, { status: 200 });
+	response.headers.set('Content-Type', 'image/png');
 	return response;
 }
 export async function POST(request: NextRequest) {
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest) {
 			{ status: 400 },
 		);
 	}
-	const { cid } = await pinata.upload.file(file);
+	const cid = await uploadFile(file);
 	return NextResponse.json({
 		Message: '上传成功',
 		cid,
