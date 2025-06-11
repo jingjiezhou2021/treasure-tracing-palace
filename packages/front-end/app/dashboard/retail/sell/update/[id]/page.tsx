@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { fetchCommodotyById, fetchUserByEmail } from '@/app/lib/data';
 import UpdateSellForm from './form';
 import { auth } from '@/auth';
