@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  MANUFACTURER
+  DISTRIBUTOR
+  CUSTOMER
+}
+
+model users {
+  id             String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name           String      @db.VarChar(255)
+  email          String      @unique
+  password       String
+  companiesId    Int?
+  role  Role    @default(CUSTOMER)
+  mycompany      companies?  @relation("employment", fields: [companiesId], references: [id], onUpdate: Cascade)
+  foundedCompany companies[] @relation("found")
+  createdProducts products[] @relation("created_products") // 🔥加这行
+  ownedProducts   products[] @relation("owned_products")   // 🔥加这行
+
+  buyOrders     orders[]     @relation("buy_orders") // 新增：我下过的订单
+  sellOrders     orders[]     @relation("sell_orders") // 新增：我下过的订单
+  createdCommodoties Commodoty[] @relation("commodoty_creator")
+}
+
+model companies {
+  id                 Int      @id @default(autoincrement())
+  name               String // Company name
+  physicalAddress    String // Physical address
+  registrationNumber String? // Registration number (optional)
+  taxId              String? // Tax ID (optional)
+  founderId          String   @db.Uuid
+  createdAt          DateTime @default(now())
+  employees          users[]  @relation("employment")
+  founder            users    @relation(fields: [founderId], references: [id], onUpdate: Cascade, name: "found")
+  product_types           product_types[] @relation("company_product_types") // 🔥加这行
+
+}
+
+enum ProductStatus {
+  MANUFACTURING
+  DISTRIBUTING
+  FOR_SALE
+  SOLD
+}
+
+model product_types {
+  id            Int           @id @default(autoincrement())
+  name          String        // 商品名称
+  description   String?       // 商品描述
+  coverCid      String?       // 商品图片链接
+  price         BigInt           @default(999999)
+
+  companyId     Int
+  manufacturerCompany companies @relation("company_product_types", fields: [companyId], references: [id], onUpdate: Cascade)
+
+  products      products[]    @relation("type_to_products")
+  orders orders[] @relation("orders")
+  commodoty Commodoty[] @relation("commodoty_type")
+}
+
+model products {
+  id                Int           @id @default(autoincrement())
+  serialNumber      String        @unique
+  manufactureDate   DateTime
+  createdAt         DateTime      @default(now())
+
+  typeId            Int
+  type              product_types @relation("type_to_products", fields: [typeId], references: [id], onUpdate: Cascade)
+
+  creatorId         String        @db.Uuid
+  currentOwnerId    String        @db.Uuid
+  status            ProductStatus @default(MANUFACTURING)
+
+  creator           users         @relation("created_products", fields: [creatorId], references: [id], onUpdate: Cascade)
+  currentOwner      users         @relation("owned_products", fields: [currentOwnerId], references: [id], onUpdate: Cascade)
+  order order_items[] @relation("product_order")
+}
+
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  DELIVERED
+  PAID
+}
+
+model orders {
+  id              Int           @id @default(autoincrement())
+  buyerId         String        @db.Uuid
+  sellerId        String?        @db.Uuid
+  productTypeId   Int
+  quantity        Int
+  totalPrice      BigInt
+  shippingAddress String
+  recipientName   String
+  phoneNumber     String
+  shippingOriginAddress String? 
+  shippingOriginPersonName String?
+  shippingOriginPhoneNumber String?
+  shippingExpressNumber String?
+  lockedPrice BigInt
+  status          OrderStatus   @default(PENDING)
+  createdAt       DateTime      @default(now())
+
+  buyer           users         @relation("buy_orders",fields: [buyerId], references: [id], onUpdate: Cascade)
+  seller           users?         @relation("sell_orders",fields: [sellerId], references: [id], onUpdate: Cascade)
+  productType     product_types @relation("orders",fields: [productTypeId], references: [id], onUpdate: Cascade)
+  order_items order_items[] @relation("order_items")
+}
+
+model order_items {
+  id         Int      @id @default(autoincrement())
+  orderId    Int
+  productId  Int 
+  createdAt  DateTime @default(now())
+
+  order      orders   @relation("order_items",fields: [orderId], references: [id], onUpdate: Cascade,onDelete: Cascade)
+  product    products @relation("product_order",fields: [productId], references: [id], onUpdate: Cascade)
+
+  @@unique([orderId, productId]) // 同一订单中不能重复添加同一个商品
+}
+
+model Commodoty {
+  id         Int      @id @default(autoincrement())
+  productTypeId Int 
+  creatorId String @db.Uuid
+  CommodotyPrice BigInt
+
+  @@unique([creatorId,productTypeId])
+  productType product_types @relation("commodoty_type",fields: [productTypeId],references: [id],onUpdate: Cascade,onDelete: Cascade)
+  creator users @relation("commodoty_creator",fields: [creatorId],references: [id],onUpdate: Cascade)
+}

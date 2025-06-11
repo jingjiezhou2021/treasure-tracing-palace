@@ -1,0 +1,11 @@
+{
+  "name": "treasure-tracing-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private":"true",
+  "workspaces": [
+    "packages/smart-contract",
+    "packages/front-end"
+  ]
+}
