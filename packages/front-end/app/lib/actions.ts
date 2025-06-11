@@ -32,7 +32,6 @@ import {
 	transferUSDT,
 	updateProductStatus,
 } from './contract-actions';
-import { uploadFile, getFileByCid, pinata } from './ipfs-action';
 import { ProductStatusSolidity } from './utils';
 
 export async function authenticate(

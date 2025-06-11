@@ -93,7 +93,7 @@ const SingleProductTypeForm: React.FC<{
 		if (formik.values.coverCid) {
 			setFileList([
 				{
-					url: `/api/pinita/file?cid=${formik.values.coverCid}`,
+					url: `/api/ipfs/file?cid=${formik.values.coverCid}`,
 					uid: '0',
 					name: 'cover',
 				},
@@ -129,7 +129,7 @@ const SingleProductTypeForm: React.FC<{
 					<Upload
 						listType="picture-card"
 						accept="image/*"
-						action={`/api/pinita/file`}
+						action={`/api/ipfs/file`}
 						maxCount={1}
 						fileList={fileList}
 						onChange={(info) => {
@@ -163,7 +163,7 @@ const SingleProductTypeForm: React.FC<{
 									setDisplayPreview(visible),
 								afterOpenChange: (visible) => !visible,
 							}}
-							src={`/api/pinita/file?cid=${formik.values.coverCid}`}
+							src={`/api/ipfs/file?cid=${formik.values.coverCid}`}
 						/>
 					)}
 					{formik.errors.coverCid ? (

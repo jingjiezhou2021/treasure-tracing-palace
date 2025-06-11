@@ -98,7 +98,7 @@ export default function AddSellForm({
 										商品图片
 									</label>
 									<Image
-										src={`/api/pinita/file?cid=${selectedProductType.coverCid}`}
+										src={`/api/ipfs/file?cid=${selectedProductType.coverCid}`}
 										className="max-h-64 rounded-2xl shadow-md"
 									/>
 								</div>

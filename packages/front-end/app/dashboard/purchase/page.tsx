@@ -21,7 +21,7 @@ export default async function PurchasePage() {
 					>
 						{product.coverCid && (
 							<img
-								src={`/api/pinita/file?cid=${product.coverCid}`}
+								src={`/api/ipfs/file?cid=${product.coverCid}`}
 								alt={product.name}
 								className="w-auto h-40 object-cover mb-3 rounded"
 							/>

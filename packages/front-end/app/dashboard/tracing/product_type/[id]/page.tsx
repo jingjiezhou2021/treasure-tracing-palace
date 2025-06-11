@@ -26,7 +26,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 	return (
 		<div className="p-8 space-y-6">
 			<ProductInfo
-				imgUrl={`/api/pinita/file?cid=${product_type?.coverCid}`}
+				imgUrl={`/api/ipfs/file?cid=${product_type?.coverCid}`}
 				name={product_type.name}
 			>
 				<Descriptions.Item label="描述">

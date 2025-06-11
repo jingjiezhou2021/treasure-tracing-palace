@@ -18,7 +18,7 @@ export default async function Page() {
 					title: c.productType.name,
 					id: c.id,
 					linkHref: `/dashboard/retail/sell/update/${c.id}`,
-					coverUrl: `/api/pinita/file?cid=${c.productType.coverCid}`,
+					coverUrl: `/api/ipfs/file?cid=${c.productType.coverCid}`,
 					description: `库存数量：${c.productType.products.filter((p) => p.status === ProductStatus.FOR_SALE).length}`,
 				};
 			})}

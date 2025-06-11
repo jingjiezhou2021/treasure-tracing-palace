@@ -11,7 +11,7 @@ export default async function Page() {
 					title: c.productType.name,
 					id: c.id,
 					linkHref: `/dashboard/customer/retail/${c.id}`,
-					coverUrl: `/api/pinita/file?cid=${c.productType.coverCid}`,
+					coverUrl: `/api/ipfs/file?cid=${c.productType.coverCid}`,
 					description: (
 						<>
 							<span className="block">

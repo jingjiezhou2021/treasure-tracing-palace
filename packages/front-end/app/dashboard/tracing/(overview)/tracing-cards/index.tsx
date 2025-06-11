@@ -21,7 +21,7 @@ export default async function TracingCards() {
 			cardsContent={product_types.map((pt) => {
 				return {
 					id: pt.id,
-					coverUrl: `/api/pinita/file?cid=${pt.coverCid}`,
+					coverUrl: `/api/ipfs/file?cid=${pt.coverCid}`,
 					linkHref: `/dashboard/tracing/product_type/${pt.id}`,
 					title: pt.name,
 					description: `上链数量:${onChainNumber.get(pt.id)}`,

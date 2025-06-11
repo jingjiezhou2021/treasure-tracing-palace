@@ -66,7 +66,7 @@ export default function UpdateSellForm({
 									商品图片
 								</label>
 								<Image
-									src={`/api/pinita/file?cid=${commodoty.productType.coverCid}`}
+									src={`/api/ipfs/file?cid=${commodoty.productType.coverCid}`}
 									className="max-h-64 rounded-2xl shadow-md"
 								/>
 							</div>
