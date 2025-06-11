@@ -5,7 +5,7 @@ const client = create('/ip4/127.0.0.1/tcp/5001');
 export async function uploadFile(file: File): Promise<string> {
 	const res = await client.add({ content: file });
 	const cid = res.cid.toString();
-	await client.files.cp(res.cid, `/${file.name}`);
+	await client.files.cp(res.cid, `/${res.path}.${file.type.split('/')[1]}`);
 	return cid;
 }
 export async function getFileByCid(cid: string | undefined): Promise<Blob> {
