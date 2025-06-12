@@ -3,7 +3,7 @@ import USDT from './abi/USDT';
 import OrderRegistry from './abi/OrderRegistry';
 import { privateKeyToAccount } from 'viem/accounts';
 import { createWalletClient, http } from 'viem';
-import { sepolia } from 'viem/chains';
+import { hardhat } from 'viem/chains';
 export const abi = {
 	ProductRegistry,
 	USDT,
@@ -22,10 +22,8 @@ export const createPlatformWallet = () => {
 	const account = privateKeyToAccount(platformWalletPrivateKey);
 	const client = createWalletClient({
 		account,
-		chain: sepolia,
-		transport: http(
-			'https://eth-sepolia.g.alchemy.com/v2/IOBVWS4XbzpjncvRihnLsCdG_2rgkRAI',
-		),
+		chain: hardhat,
+		transport: http(process.env.NEXT_PUBLIC_RPC_URL),
 	});
 	return client;
 };

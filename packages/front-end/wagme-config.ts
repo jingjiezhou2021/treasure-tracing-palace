@@ -1,10 +1,9 @@
 import { createConfig, http, cookieStorage, createStorage } from 'wagmi';
-import { mainnet, sepolia, localhost } from 'wagmi/chains';
+import { mainnet, sepolia, hardhat } from 'wagmi/chains';
 import { metaMask } from 'wagmi/connectors';
-
 export function getConfig() {
 	return createConfig({
-		chains: [mainnet, sepolia, localhost],
+		chains: [mainnet, sepolia, hardhat],
 		ssr: true,
 		storage: createStorage({
 			storage: cookieStorage,
@@ -13,7 +12,7 @@ export function getConfig() {
 		transports: {
 			[mainnet.id]: http(),
 			[sepolia.id]: http(),
-			[localhost.id]: http('http://127.0.0.1:7545'),
+			[hardhat.id]: http(process.env.NEXT_PUBLIC_RPC_URL),
 		},
 	});
 }
