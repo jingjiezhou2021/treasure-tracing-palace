@@ -1,5 +1,6 @@
 'use client';
 import { updateCommodoty } from '@/app/lib/actions';
+import useUSDTDecimals from '@/app/ui/dashboard/hooks/USDTDecimals';
 import {
 	Commodoty,
 	product_types,
@@ -23,6 +24,7 @@ export default function UpdateSellForm({
 }) {
 	const [messageApi, messageContext] = useMessage();
 	const router = useRouter();
+	const USDTDecimals = useUSDTDecimals();
 	return (
 		<Formik
 			initialValues={{
@@ -82,7 +84,7 @@ export default function UpdateSellForm({
 										amount: values.price
 											? parseUnits(
 													values.price.toString(),
-													6,
+													USDTDecimals,
 												)
 											: undefined,
 										inputString: values.price?.toString(),

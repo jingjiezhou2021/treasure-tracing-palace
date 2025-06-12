@@ -34,12 +34,7 @@ export default async function DashInfo() {
 	return (
 		<>
 			<Card title="总销售额">
-				<ClientCryptoPrice
-					icon={<UsdtCircleColorful />}
-					value={parseUnits(`${totalSalesCapital}`, 6)}
-					decimals={6}
-					symbol="USDT"
-				/>
+				<ClientCryptoPrice value={totalSalesCapital} />
 			</Card>
 			<Card title="总销量">{totalSales}</Card>
 			<Card title="订单数量">{orders.length}</Card>

@@ -119,15 +119,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 											</Descriptions.Item>
 											<Descriptions.Item label="成交价格">
 												<ClientCryptoPrice
-													icon={
-														<UsdtCircleColorful />
-													}
-													value={parseUnits(
-														`${po.lockedPrice}`,
-														6,
-													)}
-													decimals={6}
-													symbol="USDT"
+													value={po.lockedPrice}
 												/>
 											</Descriptions.Item>
 											<Descriptions.Item label="发货地址">

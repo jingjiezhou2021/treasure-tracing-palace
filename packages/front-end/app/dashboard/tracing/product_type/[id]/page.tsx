@@ -36,12 +36,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 					{product_type.manufacturerCompany.name}
 				</Descriptions.Item>
 				<Descriptions.Item label="价格">
-					<ClientCryptoPrice
-						icon={<UsdtCircleColorful />}
-						value={parseUnits(`${product_type.price}`, 6)}
-						decimals={6}
-						symbol="USDT"
-					/>
+					<ClientCryptoPrice value={product_type.price} />
 				</Descriptions.Item>
 				<Descriptions.Item label="生产数量">
 					{product_type.products.length}

@@ -29,12 +29,7 @@ export default async function PurchaseInfo({
 			</div>
 			<div>
 				<strong>价格：</strong>{' '}
-				<ClientCryptoPrice
-					icon={<UsdtCircleColorful />}
-					value={product_type.price * 100_0000n}
-					decimals={6}
-					symbol="USDT"
-				/>
+				<ClientCryptoPrice value={product_type.price} />
 			</div>
 			{children}
 		</div>

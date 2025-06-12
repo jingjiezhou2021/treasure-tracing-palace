@@ -1,6 +1,7 @@
 'use client';
 import { addCommodoty } from '@/app/lib/actions';
 import { fetchUserByEmail } from '@/app/lib/data';
+import useUSDTDecimals from '@/app/ui/dashboard/hooks/USDTDecimals';
 import {
 	product_types,
 	products,
@@ -25,6 +26,7 @@ export default function AddSellForm({
 }) {
 	const [messageApi, messageContext] = useMessage();
 	const router = useRouter();
+	const USDTDecimals = useUSDTDecimals();
 	const [selectedProductType, setSelectedProductType] = useState<
 		(product_types & { products: products[] }) | null
 	>(null);
@@ -114,7 +116,7 @@ export default function AddSellForm({
 											amount: values.price
 												? parseUnits(
 														values.price.toString(),
-														6,
+														USDTDecimals,
 													)
 												: undefined,
 											inputString:

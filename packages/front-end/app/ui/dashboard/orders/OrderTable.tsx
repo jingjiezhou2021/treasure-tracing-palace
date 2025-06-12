@@ -34,12 +34,7 @@ const ProductTable: React.FC<OrderTableProps> = ({ orders }) => {
 			render: (price: number) => {
 				return (
 					<div>
-						<ClientCryptoPrice
-							icon={<UsdtCircleColorful />}
-							value={BigInt(price) * 100_0000n}
-							decimals={6}
-							symbol="USDT"
-						/>
+						<ClientCryptoPrice value={price} />
 					</div>
 				);
 			},

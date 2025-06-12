@@ -5,6 +5,7 @@ import {
 	detectIsOnChain,
 	getProductBySerialNumber,
 	getProductOrders,
+	getUSDTDecimals,
 	productExists,
 } from './contract-actions';
 import {
@@ -446,4 +447,7 @@ export async function fetchCommodotyById(id: number) {
 		);
 	});
 	return ret;
+}
+export async function fetchUSDTDecimals() {
+	return await getUSDTDecimals();
 }

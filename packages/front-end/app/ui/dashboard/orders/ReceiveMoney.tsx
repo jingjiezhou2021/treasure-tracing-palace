@@ -27,12 +27,7 @@ export default function ReceiveMoney({
 				{order.status === OrderStatus.PAID ? '已' : ''}领取金额
 			</h2>
 			<p className="text-xl font-bold flex justify-between">
-				<ClientCryptoPrice
-					icon={<UsdtCircleColorful />}
-					value={(order.totalPrice - 1n) * 100_0000n}
-					decimals={6}
-					symbol="USDT"
-				/>
+				<ClientCryptoPrice value={order.totalPrice - 1n} />
 				<Button
 					className="w-24"
 					disabled={order.status === OrderStatus.PAID}

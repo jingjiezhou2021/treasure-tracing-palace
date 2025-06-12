@@ -55,12 +55,7 @@ export default async function OrderDetailPage(props: {
 			<section className="mb-6">
 				<h2 className="text-lg font-semibold">总消费</h2>
 				<p className="text-xl font-bold">
-					<ClientCryptoPrice
-						icon={<UsdtCircleColorful />}
-						value={order.totalPrice * 100_0000n}
-						decimals={6}
-						symbol="USDT"
-					/>
+					<ClientCryptoPrice value={order.totalPrice} />
 				</p>
 			</section>
 

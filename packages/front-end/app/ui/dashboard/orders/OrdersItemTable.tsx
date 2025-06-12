@@ -26,12 +26,7 @@ export default function OrdersItemTable({
 				price = order.lockedPrice!;
 				return (
 					<div>
-						<ClientCryptoPrice
-							icon={<UsdtCircleColorful />}
-							value={BigInt(price) * 100_0000n}
-							decimals={6}
-							symbol="USDT"
-						/>
+						<ClientCryptoPrice value={price} />
 					</div>
 				);
 			},

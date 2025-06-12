@@ -2,6 +2,7 @@
 
 import { createCommodotyOrder, createOrder } from '@/app/lib/actions';
 import { fetchCommodotyById } from '@/app/lib/data';
+import useUSDTDecimals from '@/app/ui/dashboard/hooks/USDTDecimals';
 import ProductPurchaseForm from '@/app/ui/dashboard/purchase/form';
 import { abi, contractAddress, platformWalletAddr } from '@/contracts';
 import { ProductStatus } from '@/generated/prisma';
@@ -15,6 +16,7 @@ export default function PurchaseCommodotyFormWrapper({
 	commodoty: NonNullable<Awaited<ReturnType<typeof fetchCommodotyById>>>;
 }) {
 	const { writeContractAsync, isPending } = useWriteContract();
+	const USDTDecimals = useUSDTDecimals();
 	return (
 		<ProductPurchaseForm
 			sellerId={commodoty.creatorId}
@@ -27,7 +29,10 @@ export default function PurchaseCommodotyFormWrapper({
 					functionName: 'transfer',
 					args: [
 						platformWalletAddr,
-						parseUnits(`${o.lockedPrice * BigInt(o.quantity)}`, 6),
+						parseUnits(
+							`${o.lockedPrice * BigInt(o.quantity)}`,
+							USDTDecimals,
+						),
 					],
 				}).then(() => {
 					return createCommodotyOrder({

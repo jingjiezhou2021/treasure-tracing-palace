@@ -2,13 +2,11 @@
 
 import { fetchProductTypes } from '@/app/lib/data';
 import { Button } from 'antd';
-import { UsdtCircleColorful } from '@/app/ui/components/ClientIcons/index';
 import ClientCryptoPrice from '@/app/ui/components/ClientCryptoPrice/index';
 import Link from 'next/link';
 import { ProductStatus } from '@/generated/prisma';
 export default async function PurchasePage() {
 	const productTypes = await fetchProductTypes();
-
 	return (
 		<div className="p-6">
 			<h1 className="text-3xl font-bold mb-6">采购商品</h1>
@@ -49,12 +47,7 @@ export default async function PurchasePage() {
 									详情
 								</Button>
 							</Link>
-							<ClientCryptoPrice
-								icon={<UsdtCircleColorful />}
-								value={product.price * 100_0000n}
-								decimals={6}
-								symbol="USDT"
-							/>
+							<ClientCryptoPrice value={product.price} />
 						</div>
 					</div>
 				))}

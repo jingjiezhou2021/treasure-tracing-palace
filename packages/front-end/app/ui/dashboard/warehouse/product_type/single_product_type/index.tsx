@@ -28,6 +28,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import * as Yup from 'yup';
 import { parseUnits } from 'viem';
+import useUSDTDecimals from '../../../hooks/USDTDecimals';
 
 const SingleProductTypeForm: React.FC<{
 	product_type?: product_types;
@@ -40,6 +41,7 @@ const SingleProductTypeForm: React.FC<{
 	const session = useSession();
 	const pathname = usePathname();
 	const router = useRouter();
+	const USDTDecimals = useUSDTDecimals();
 	const formik = useFormik({
 		initialValues: {
 			id: product_type?.id,
@@ -206,7 +208,7 @@ const SingleProductTypeForm: React.FC<{
 							token: USDT,
 							amount: parseUnits(
 								formik.values.price?.toString() ?? '0',
-								6,
+								USDTDecimals,
 							),
 							inputString: formik.values.price?.toString(),
 						}}

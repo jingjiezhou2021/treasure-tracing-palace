@@ -2,6 +2,7 @@
 
 import { createOrder } from '@/app/lib/actions';
 import { fetchProductTypeById } from '@/app/lib/data';
+import useUSDTDecimals from '@/app/ui/dashboard/hooks/USDTDecimals';
 import ProductPurchaseForm from '@/app/ui/dashboard/purchase/form';
 import { abi, contractAddress, platformWalletAddr } from '@/contracts';
 import { ProductStatus } from '@/generated/prisma';
@@ -15,6 +16,7 @@ export default function ProductPurchaseFormWrapper({
 	product_type: NonNullable<Awaited<ReturnType<typeof fetchProductTypeById>>>;
 }) {
 	const { writeContractAsync, isPending } = useWriteContract();
+	const USDTDecimals = useUSDTDecimals();
 	return (
 		<ProductPurchaseForm
 			sellerId={product_type.manufacturerCompany.founderId}
@@ -33,7 +35,7 @@ export default function ProductPurchaseFormWrapper({
 						platformWalletAddr,
 						parseUnits(
 							`${values.lockedPrice * BigInt(values.quantity)}`,
-							6,
+							USDTDecimals,
 						),
 					],
 				}).then(() => {

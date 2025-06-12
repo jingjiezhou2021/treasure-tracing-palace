@@ -164,12 +164,7 @@ export default function ProductPurchaseForm({
 
 			<div>
 				<label className="block font-semibold mb-1">花费：</label>
-				<ClientCryptoPrice
-					icon={<UsdtCircleColorful />}
-					value={totalCost * 100_0000n}
-					decimals={6}
-					symbol="USDT"
-				/>
+				<ClientCryptoPrice value={totalCost} />
 			</div>
 			<Button htmlType="submit" type="primary">
 				提交订单

@@ -10,6 +10,7 @@ import {
 	parseUnits,
 } from 'viem';
 import { ProductStatusSolidity } from './utils';
+import { fetchUSDTDecimals } from './data';
 
 const platformWallet = createPlatformWallet();
 const productRegistryContract = getContract({
@@ -75,9 +76,10 @@ export async function updateProductStatus(
 }
 export async function transferUSDT(addr: `0x${string}`, amount: string) {
 	console.warn(`转移${amount}USDT中...`);
+	const USDTDecimals = await fetchUSDTDecimals();
 	const txHash = await USDTContract.write.transfer([
 		addr,
-		parseUnits(amount.toString(), 6),
+		parseUnits(amount.toString(), USDTDecimals),
 	]);
 	console.warn(`转移USDT成功`, txHash);
 	return txHash;
@@ -126,4 +128,7 @@ export async function recordOrder(
 }
 export async function getProductOrders(serialNumber: string) {
 	return await productRegistryContract.read.getOrderOfProduct([serialNumber]);
+}
+export async function getUSDTDecimals(): Promise<number> {
+	return await USDTContract.read.decimals();
 }
