@@ -364,8 +364,11 @@ export async function fetchCommodoties() {
 			return (
 				p.currentOwnerId === c.creatorId ||
 				p.creatorId === c.creatorId ||
-				p.currentOwner.companiesId === c.creator.companiesId ||
-				p.currentOwner.companiesId === c.creator.foundedCompany[0]?.id
+				(p.currentOwner.companiesId &&
+					p.currentOwner.companiesId === c.creator.companiesId) ||
+				(p.currentOwner.companiesId &&
+					p.currentOwner.companiesId ===
+						c.creator.foundedCompany[0]?.id)
 			);
 		});
 	});
@@ -441,9 +444,11 @@ export async function fetchCommodotyById(id: number) {
 			p.status === ProductStatus.FOR_SALE &&
 			(p.currentOwnerId === ret.creatorId ||
 				p.creatorId === ret.creatorId ||
-				p.currentOwner.companiesId === ret.creator.companiesId ||
-				p.currentOwner.companiesId ===
-					ret.creator.foundedCompany[0]?.id)
+				(p.currentOwner.companiesId &&
+					p.currentOwner.companiesId === ret.creator.companiesId) ||
+				(p.currentOwner.companiesId &&
+					p.currentOwner.companiesId ===
+						ret.creator.foundedCompany[0]?.id))
 		);
 	});
 	return ret;
