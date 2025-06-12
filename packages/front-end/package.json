@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "build": "next build",
-    "dev": "NODE_ENV=development next dev",
+    "dev": "cross-env NODE_ENV=development next dev",
     "postinstall": "prisma generate",
-    "start": "next start",
+    "start": "cross-env NODE_ENV=production next start",
     "lint": "eslint app"
   },
   "dependencies": {
@@ -45,6 +45,7 @@
     "@types/react-highlight-words": "^0.20.0",
     "@web-std/file": "^3.0.3",
     "antd": "^5.24.8",
+    "cross-env": "^7.0.3",
     "dayjs": "^1.11.13",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.2",
