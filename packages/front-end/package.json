@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "next build",
-    "dev": "next dev",
+    "dev": "NODE_ENV=development next dev",
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint app"

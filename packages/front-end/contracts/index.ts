@@ -3,7 +3,7 @@ import USDT from './abi/USDT';
 import OrderRegistry from './abi/OrderRegistry';
 import { privateKeyToAccount } from 'viem/accounts';
 import { createWalletClient, http } from 'viem';
-import { hardhat } from 'viem/chains';
+import { hardhat, sepolia } from 'viem/chains';
 export const abi = {
 	ProductRegistry,
 	USDT,
@@ -22,7 +22,11 @@ export const createPlatformWallet = () => {
 	const account = privateKeyToAccount(platformWalletPrivateKey);
 	const client = createWalletClient({
 		account,
-		chain: hardhat,
+		chain:
+			process.env.NODE_ENV === 'development' ||
+			process.env.NODE_ENV === 'test'
+				? hardhat
+				: sepolia,
 		transport: http(process.env.NEXT_PUBLIC_RPC_URL),
 	});
 	return client;
