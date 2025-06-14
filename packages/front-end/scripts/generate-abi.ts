@@ -5,7 +5,13 @@ import { sepoliaUSDT } from 'smart-contract';
 import fs from 'fs';
 
 console.log('writing to contracts/abi...');
-
+if (!fs.existsSync('./contracts/abi')) {
+	console.warn('contracts/abi folder not exist, creating one...');
+	fs.mkdirSync('./contracts/abi', {
+		recursive: true,
+	});
+	console.log('creating contracts/abi folder successful');
+}
 fs.writeFileSync(
 	'./contracts/abi/OrderRegistry.ts',
 	`export default ${JSON.stringify(OrderRegistry)} as const;`,
