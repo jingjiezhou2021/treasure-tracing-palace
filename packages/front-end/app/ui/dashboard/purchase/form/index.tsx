@@ -166,7 +166,11 @@ export default function ProductPurchaseForm({
 				<label className="block font-semibold mb-1">花费：</label>
 				<ClientCryptoPrice value={totalCost} />
 			</div>
-			<Button htmlType="submit" type="primary">
+			<Button
+				htmlType="submit"
+				type="primary"
+				loading={formik.isSubmitting}
+			>
 				提交订单
 			</Button>
 		</form>

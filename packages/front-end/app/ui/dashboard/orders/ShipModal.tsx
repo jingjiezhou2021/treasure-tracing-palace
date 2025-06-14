@@ -59,6 +59,7 @@ export default function ShipModal({ order }: { order: orders }) {
 						handleSubmit,
 						handleChange,
 						handleBlur,
+						isSubmitting,
 						values,
 						errors,
 						touched,
@@ -136,7 +137,12 @@ export default function ShipModal({ order }: { order: orders }) {
 							</Form.Item>
 							<Form.Item>
 								{}
-								<Button type="primary" htmlType="submit" block>
+								<Button
+									type="primary"
+									htmlType="submit"
+									block
+									loading={isSubmitting}
+								>
 									确认发货
 								</Button>
 							</Form.Item>

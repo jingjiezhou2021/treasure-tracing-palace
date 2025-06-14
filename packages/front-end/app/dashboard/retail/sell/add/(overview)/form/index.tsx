@@ -66,7 +66,14 @@ export default function AddSellForm({
 					});
 			}}
 		>
-			{({ handleSubmit, errors, setFieldValue, values, handleBlur }) => {
+			{({
+				handleSubmit,
+				errors,
+				setFieldValue,
+				values,
+				handleBlur,
+				isSubmitting,
+			}) => {
 				return (
 					<form
 						className="max-w-xl space-y-4"
@@ -160,6 +167,7 @@ export default function AddSellForm({
 							type="primary"
 							htmlType="submit"
 							className="mr-4"
+							loading={isSubmitting}
 						>
 							提交
 						</Button>

@@ -20,6 +20,7 @@ export default function ReceiveMoney({
 	const { signMessageAsync } = useSignMessage();
 	const [txHash, setTxHash] = useState('');
 	const [messageApi, contextHolder] = message.useMessage();
+	const [isLoading, setIsLoading] = useState(false);
 	return (
 		<section className="mb-6">
 			{contextHolder}
@@ -32,9 +33,12 @@ export default function ReceiveMoney({
 					className="w-24"
 					disabled={order.status === OrderStatus.PAID}
 					icon={<UsdtCircleColorful />}
+					loading={isLoading}
 					onClick={() => {
+						setIsLoading(true);
 						if (!address || !isConnected) {
 							messageApi.error('未连接钱包');
+							setIsLoading(false);
 						} else {
 							signMessageAsync({
 								message: order.id.toString(),
@@ -53,6 +57,7 @@ export default function ReceiveMoney({
 											Number(order.totalPrice) - 1
 										).toString()} USDT成功`,
 									);
+									setIsLoading(false);
 									router.refresh();
 								})
 								.catch((err) => {

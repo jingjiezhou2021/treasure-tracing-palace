@@ -5,6 +5,7 @@ import { fetchOrderById } from '@/app/lib/data';
 import { OrderStatus } from '@/generated/prisma';
 import { Button, message } from 'antd';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function ConfirmReceive({
 	order,
@@ -13,6 +14,7 @@ export default function ConfirmReceive({
 }) {
 	const [messageApi, contextHolder] = message.useMessage();
 	const router = useRouter();
+	const [isLoading, setIsLoading] = useState(false);
 	return (
 		<>
 			{contextHolder}
@@ -20,12 +22,15 @@ export default function ConfirmReceive({
 				variant="solid"
 				color="green"
 				disabled={order.status === OrderStatus.DELIVERED}
+				loading={isLoading}
 				onClick={() => {
+					setIsLoading(true);
 					confirmReceiving(order)
 						.then(() => {
 							return messageApi.success('确认收货成功');
 						})
 						.then(() => {
+							setIsLoading(false);
 							router.refresh();
 						});
 				}}

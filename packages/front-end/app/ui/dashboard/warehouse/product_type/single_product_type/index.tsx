@@ -238,11 +238,17 @@ const SingleProductTypeForm: React.FC<{
 						color="green"
 						htmlType="submit"
 						className="mr-4"
+						loading={formik.isSubmitting}
 					>
 						修改
 					</Button>
 				) : (
-					<Button type="primary" htmlType="submit" className="mr-4">
+					<Button
+						type="primary"
+						htmlType="submit"
+						className="mr-4"
+						loading={formik.isSubmitting}
+					>
 						提交
 					</Button>
 				)}
