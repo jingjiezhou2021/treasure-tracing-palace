@@ -706,8 +706,6 @@ yarn start
 
 ### 发布到 Vercel
 
-<<<<<<< HEAD
-=======
 
 fork此项目
 
@@ -751,7 +749,6 @@ fork此项目
 
 
 
->>>>>>> 7ca4965 (readme)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
