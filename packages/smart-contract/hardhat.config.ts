@@ -24,7 +24,7 @@ const config: HardhatUserConfig&{etherscan:Partial<EtherscanConfig>} = {
       url: `${process.env.SEPOLIA_RPC_URL}`,
       chainId: 11155111, // Sepolia's network ID
       accounts:{
-        mnemonic:process.env.MNEMONIC,
+        mnemonic:`${process.env.MNEMONIC}`,
       }
     }
     //
