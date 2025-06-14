@@ -39,3 +39,5 @@ next-env.d.ts
 
 generated/prisma/
 prisma/migrations
+
+contracts/abi/*
