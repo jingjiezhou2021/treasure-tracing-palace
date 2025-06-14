@@ -94,7 +94,7 @@
     - [本地启动 Next.js 开发服务器](#本地启动-nextjs-开发服务器)
   - [生产环境](#生产环境)
     - [配置 Pinata](#配置-pinata)
-    - [部署智能合约到Sepolia](#部署智能合约到sepolia)
+    - [部署智能合约到 Sepolia](#部署智能合约到-sepolia)
     - [使用 Prisma 迁移数据库](#使用-prisma-迁移数据库-1)
     - [Next.js 打包服务器](#nextjs-打包服务器)
     - [启动 Next.js 打包后的服务器](#启动-nextjs-打包后的服务器)
@@ -516,7 +516,7 @@ NEXT_PUBLIC_ORDER_REGISTRY= #订单管理合约地址
 cd packages/front-end
 ```
 
-输入启动脚本
+执行启动脚本
 
 ```shell
 yarn dev
@@ -536,16 +536,222 @@ yarn dev
 
 ### 配置 Pinata
 
-### 部署智能合约到Sepolia
+在 [Pinata官网](https://pinata.cloud/) 注册账号
+
+![pinata-website](./images/readme/pinata-website.png)
+
+进入管理后台
+
+![pinata-admin](./images/readme/pinata.png)
+
+复制网关地址到`packages/front-end/.env.production`，名称设为`NEXT_PUBLIC_PINATA_GATEWAY_URL`
+
+![pinata-gateway](./images/readme/pinata-gateway.png)
+
+```shell
+NEXT_PUBLIC_PINATA_GATEWAY_URL= # pinata 网关地址
+```
+
+创建网关秘钥
+
+![pinata-gateway-key1](./images/readme/pinata-gateway-key1.png)
+
+![pinata-gateway-key2](./images/readme/pinata-gateway-key2.png)
+
+![pinata-gateway-key3](./images/readme/pinata-gateway-key3.png)
+
+复制秘钥到`packages/front-end/.env.production`，名称设为`PINATA_GATEWAY_KEY`
+
+```shell
+PINATA_GATEWAY_KEY= # pinata 网关秘钥
+```
+
+创建API秘钥
+
+![pinata-api-key1](./images/readme/pinata-api-key1.png)
+
+勾选admin选项，任意取名
+
+![pinata-api-key2](./images/readme/pinata-api-key2.png)
+
+点击Copy All，复制到剪切板
+
+![pinata-api-key3](./images/readme/pinata-api-key3.png)
+
+复制的内容有3个成分：`API Key`、`API Secret`、`JWT`
+
+![pinata-api-key4](./images/readme/pinata-api-key4.png)
+
+
+在`packages/front-end/.env.production`中创建环境变量`PINATA_API_KEY`、`PINATA_API_SECRET`、`PINATA_JWT`存储对应值
+
+```shell
+PINATA_API_KEY= # 剪切板中 API Key 的值
+PINATA_API_SECRET= # 剪切板中 API Secret 的值
+PINATA_JWT= # 剪切板中 JWT 的值
+```
+
+### 部署智能合约到 Sepolia
+
+需要在`packages/smart-contract/.env`设置以下环境变量
+
+```shell
+ETHERSCAN_API_KEY= # Etherscan API 秘钥
+MNEMONIC= # 钱包助记词
+SEPOLIA_RPC_URL= # Sepolia 测试网RPC节点URL
+```
+
+控制台切换路径到`packages/smart-contract`
+
+```shell
+cd packages/smart-contract
+```
+
+执行部署到测试网脚本（中途需要敲一下`y`键）
+
+```shell
+yarn deploy
+```
+
+![deploy](./images/readme/deploy.png)
+
+在Etherscan上打开合约详情发现合约已发布并被验证
+
+![deploy-result](./images/readme/deploy-result.png)
 
 ### 使用 Prisma 迁移数据库
 
+在`package/front-end/.env.production`中配置`DATABASE_URL`为连接生产环境数据库的URL
+
+```shell
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+```
+
+
+本地创建`prisma-production`分支
+
+```shell
+git checkout -b prisma-production
+```
+
+内容重置为远程同名分支
+
+```shell
+git fetch --all
+git reset --hard origin/prisma-production
+```
+
+安装依赖
+
+```shell
+yarn
+```
+
+控制台切换路径到`packages/front-end`
+
+```shell
+cd packages/front-end
+```
+
+控制台输入命令用Prisma重置数据库（中途需要敲一下`y`键）
+
+```shell
+yarn dotenv -e .env.production -- yarn prisma migrate reset
+```
+
+![prisma-production](./images/readme/prisma-production.png)
+
+切换回`dev`分支
+
+```shell
+git checkout dev
+```
+
+重新安装依赖
+
+```shell
+yarn
+```
+
 ### Next.js 打包服务器
+
+控制台切换路径到`packages/front-end`
+
+```shell
+cd packages/front-end
+```
+
+执行打包脚本
+
+```shell
+yarn build
+```
+
+打包成功
+
+![build](./images/readme/build.png)
+
 
 ### 启动 Next.js 打包后的服务器
 
+执行启动脚本
+
+```shell
+yarn start
+```
+
+浏览器打开`localhost:3000`
+
+![start](./images/readme/start.png)
+
 ### 发布到 Vercel
 
+<<<<<<< HEAD
+=======
+
+fork此项目
+
+![fork](./images/readme/fork.png)
+
+![fork1](./images/readme/fork1.png)
+
+在 [Vercel官网](https://vercel.com/)注册账号
+
+![vercel-website](./images/readme/vercel.png)
+
+在管理后台创建新项目
+
+![vercel-create1](./images/readme/vercel-create1.png)
+
+选择fork的溯宝阁
+
+![vercel-create2](./images/readme/vercel-create2.png)
+
+覆盖打包和安装依赖的命令
+
+![vercel-create3](./images/readme/vercel-create3.png)
+
+
+
+把`package/front-end/.env`和`package/front-end/.env.production`和`package/smart-contract`中的内容粘贴到环境变量设置中
+
+![vercel-create4](./images/readme/vercel-create4.png)
+
+点击部署
+
+![vercel-create5](./images/readme/vercel-create5.png)
+
+第一次部署成功后需要修改Vercel中环境变量`NEXTAUTH_URL`和`AUTH_TRUST_HOST`的值，首先查看Vercel分配的域名
+
+![vercel-create6](./images/readme/vercel-create6.png)
+
+在项目设置中修改`NEXTAUTH_URL`和`AUTH_TRUST_HOST`的值为这个域名
+
+![vercel-create7](./images/readme/vercel-create7.png)
+
+
+
+>>>>>>> 7ca4965 (readme)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
