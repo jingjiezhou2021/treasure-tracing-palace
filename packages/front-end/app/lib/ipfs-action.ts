@@ -23,7 +23,7 @@ export async function uploadFile(file: File): Promise<string> {
 		const cid = res.cid.toString();
 		await kurboClient.files.cp(
 			res.cid,
-			`/${res.path}.${file.type.split('/')[1]}`,
+			`/${res.path}-${Date.now()}.${file.type.split('/')[1]}`,
 		);
 		return cid;
 	}
