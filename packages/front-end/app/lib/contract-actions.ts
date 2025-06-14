@@ -130,5 +130,10 @@ export async function getProductOrders(serialNumber: string) {
 	return await productRegistryContract.read.getOrderOfProduct([serialNumber]);
 }
 export async function getUSDTDecimals(): Promise<number> {
-	return await USDTContract.read.decimals();
+	const res: bigint | number = await USDTContract.read.decimals();
+	if (typeof res === 'bigint') {
+		return Number(res);
+	} else {
+		return res;
+	}
 }
