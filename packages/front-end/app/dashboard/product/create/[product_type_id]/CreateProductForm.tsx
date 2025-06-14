@@ -198,7 +198,12 @@ export default function CreateProductForm({
 					/>
 				</div>
 
-				<Button type="primary" htmlType="submit" className="mr-4">
+				<Button
+					type="primary"
+					htmlType="submit"
+					className="mr-4"
+					loading={formik.isSubmitting}
+				>
 					提交
 				</Button>
 				<Button
