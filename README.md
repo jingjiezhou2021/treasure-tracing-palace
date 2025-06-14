@@ -79,10 +79,26 @@
     - [☁️ 五、云设施层（DevOps 与部署）](#️-五云设施层devops-与部署)
     - [✅ 总结：](#-总结)
 - [快速开始🚀](#快速开始)
+  - [克隆存储库](#克隆存储库)
+  - [📦 环境变量配置](#-环境变量配置)
+    - [🔐 `smart-contracts/.env`](#-smart-contractsenv)
+    - [🌐 `front-end/.env`](#-front-endenv)
+    - [🧪 `front-end/.env.development`](#-front-endenvdevelopment)
+    - [🚀 `front-end/.env.production`](#-front-endenvproduction)
   - [开发环境](#开发环境)
-    - [前置条件](#前置条件)
+    - [运行 IPFS Desktop](#运行-ipfs-desktop)
+    - [运行本地数据库](#运行本地数据库)
+    - [使用 Prisma 迁移数据库](#使用-prisma-迁移数据库)
+    - [运行本地区块链模拟器](#运行本地区块链模拟器)
+    - [智能合约部署到区块链模拟器](#智能合约部署到区块链模拟器)
+    - [本地启动 Next.js 开发服务器](#本地启动-nextjs-开发服务器)
   - [生产环境](#生产环境)
-    - [前置条件](#前置条件-1)
+    - [配置 Pinata](#配置-pinata)
+    - [部署智能合约到Sepolia](#部署智能合约到sepolia)
+    - [使用 Prisma 迁移数据库](#使用-prisma-迁移数据库-1)
+    - [Next.js 打包服务器](#nextjs-打包服务器)
+    - [启动 Next.js 打包后的服务器](#启动-nextjs-打包后的服务器)
+    - [发布到 Vercel](#发布到-vercel)
 - [贡献代码🧑🏿‍💻](#贡献代码)
   - [贡献者❤️](#贡献者️)
 
@@ -296,16 +312,230 @@
 <!-- GETTING STARTED -->
 # 快速开始🚀
 
+## 克隆存储库
+
+```shell
+git clone https://github.com/jingjiezhou2021/treasure-tracing-palace.git
+```
+
+## 📦 环境变量配置
+
+项目分为 `smart-contracts` 和 `front-end` 两个工作区，每个工作区都需要设置环境变量配置文件，以下分别介绍各配置项及其功能。
+
+---
+
+### 🔐 `smart-contracts/.env`
+
+| 变量名                 | 功能描述                             |
+| ------------------- | -------------------------------- |
+| `ETHERSCAN_API_KEY` | 用于合约部署后与 Etherscan API 交互，实现自动验证 |
+| `MNEMONIC`          | 钱包助记词，用于生成部署合约的私钥                |
+| `SEPOLIA_RPC_URL`   | Sepolia 测试网的 RPC 节点地址，用于连接区块链网络  |
+
+---
+
+### 🌐 `front-end/.env`
+
+| 变量名               | 功能描述                              |
+| ----------------- | --------------------------------- |
+| `AUTH_SECRET`     | 用户认证的加密密钥                         |
+| `APP_DOMAIN`      | 应用的域名地址                           |
+| `NEXTAUTH_URL`    | NextAuth.js 使用的服务 URL     |
+| `AUTH_TRUST_HOST` | NextAuth 的信任主机设置                  |
+| `NEXTAUTH_SECRET` | 用于加密会话和令牌的密钥（与 AUTH\_SECRET 功能类似） |
+
+---
+
+### 🧪 `front-end/.env.development`
+
+| 变量名                                | 功能描述                       |
+| ---------------------------------- | -------------------------- |
+| `DATABASE_URL`                     | 开发环境 PostgreSQL 数据库连接地址    |
+| `PLATFORM_WALLET_PRIVATE_KEY`      | 平台用于发起交易的私钥                |
+| `NEXT_PUBLIC_PLATFORM_WALLET_ADDR` | 平台钱包地址，前端可见                |
+| `NEXT_PUBLIC_USDT`                 | USDT 合约地址（本地环境部署的 Mock 合约） |
+| `NEXT_PUBLIC_PRODUCT_REGISTRY`     | 商品管理合约地址                   |
+| `NEXT_PUBLIC_ORDER_REGISTRY`       | 订单合约地址                     |
+| `NEXT_PUBLIC_RPC_URL`              | 区块链本地节点的 RPC 地址            |
+| `IPFS_RPC_URL`                     | 本地 IPFS 节点的 RPC 地址         |
+
+---
+
+### 🚀 `front-end/.env.production`
+
+| 变量名                                | 功能描述                                  |
+| ---------------------------------- | ------------------------------------- |
+| `DATABASE_URL`                     | 生产环境 PostgreSQL 数据库连接地址 |
+| `PLATFORM_WALLET_PRIVATE_KEY`      | 平台用于发起链上交易的私钥                         |
+| `NEXT_PUBLIC_PLATFORM_WALLET_ADDR` | 平台钱包地址（部署在Sepolia测试网）|
+| `NEXT_PUBLIC_USDT`                 | USDT 合约地址（部署在Sepolia测试网）                  |
+| `NEXT_PUBLIC_PRODUCT_REGISTRY`     | 商品注册合约地址（部署在Sepolia测试网）                   |
+| `NEXT_PUBLIC_ORDER_REGISTRY`       | 订单注册合约地址（部署在Sepolia测试网）                   |
+| `NEXT_PUBLIC_RPC_URL`              | 区块链测试网节点地址                |
+| `PINATA_API_KEY`                   | Pinata 平台的 API Key，用于上传文件到 IPFS       |
+| `PINATA_API_SECRET`                | Pinata 平台的 API Secret                 |
+| `PINATA_JWT`                       | Pinata 授权上传使用的 JWT Token              |
+| `NEXT_PUBLIC_PINATA_GATEWAY_URL`   | Pinata 网关地址（前端使用）              |
+| `PINATA_GATEWAY_KEY`               | Pinata 网关的访问授权密钥                  |
+
+---
+
 ## 开发环境
 
-### 前置条件
+### 运行 IPFS Desktop
+
+运行IPFS Desktop
+
+![ipfs](./images/readme/ipfs.png)
+
+查看IPFS Desktop设置的KURBO RPC API地址
+
+![ipfs1](./images/readme/ipfs1.png)
+
+在`package/front-end/.env.development`中配置`IPFS_RPC_URL`为KURBO RPC API地址
+
+```shell
+IPFS_RPC_URL="/ip4/127.0.0.1/tcp/5001"
+```
+
+### 运行本地数据库
+
+此处使用Postgre SQL（如果要使用其他数据库需要更改`package/front-end/prisma/schema.prisma`中的`datasource.provider`）
+
+![postgresql1](./images/readme/postgresql1.png)
+
+在`package/front-end/.env.development`中配置`DATABASE_URL`为连接数据库的URL
+
+```shell
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+```
+
+### 使用 Prisma 迁移数据库
+
+本地创建`prisma-development`分支
+
+```shell
+git checkout -b prisma-development
+```
+
+内容重置为远程同名分支
+
+```shell
+git fetch --all
+git reset --hard origin/prisma-development
+```
+
+安装依赖
+
+```shell
+yarn
+```
+
+控制台切换路径到`packages/front-end`
+
+```shell
+cd packages/front-end
+```
+
+控制台输入命令用Prisma重置数据库（中途需要敲一下`y`键）
+
+```shell
+yarn dotenv -e .env.development -- yarn prisma migrate reset
+```
+
+![prisma](./images/readme/prisma.png)
+
+切换回`dev`分支
+
+```shell
+git checkout dev
+```
+
+重新安装依赖
+
+```shell
+yarn
+```
 
 
 
+### 运行本地区块链模拟器
+
+控制台切换路径到`packages/smart-contract`
+
+```shell
+cd packages/smart-contract
+```
+
+本地启动hardhat node
+
+```shell
+npx hardhat node
+```
+
+启动成功
+
+![hardhat-node](./images/readme/hardhat-node.png)
+
+
+### 智能合约部署到区块链模拟器
+
+启动一个新的控制台
+
+![new-terminal](./images/readme/new-terminal.png)
+
+控制台切换路径到`packages/smart-contract`
+
+```shell
+cd packages/smart-contract
+```
+
+执行部署脚本
+
+```shell
+yarn dev-deploy
+```
+
+部署成功
+
+![dev-deploy](./images/readme/dev-deploy.png)
+
+### 本地启动 Next.js 开发服务器
+
+控制台切换路径到`packages/front-end`
+
+```shell
+cd packages/front-end
+```
+
+输入启动脚本
+
+```shell
+yarn dev
+```
+
+启动成功
+
+![dev-server](./images/readme/dev-server.png)
+
+浏览器打开`localhost:3000`
+
+![dev-server-browser](./images/readme/dev-server-browser.png)
 
 ## 生产环境
 
-### 前置条件
+### 配置 Pinata
+
+### 部署智能合约到Sepolia
+
+### 使用 Prisma 迁移数据库
+
+### Next.js 打包服务器
+
+### 启动 Next.js 打包后的服务器
+
+### 发布到 Vercel
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
