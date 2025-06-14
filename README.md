@@ -500,6 +500,14 @@ yarn dev-deploy
 
 ![dev-deploy](./images/readme/dev-deploy.png)
 
+可以看到部署提示信息中显示了合约的地址，将这些地址复制到`packages/front-end/.env.development`中
+
+```shell
+NEXT_PUBLIC_USDT= #USDT合约地址
+NEXT_PUBLIC_PRODUCT_REGISTRY= #商品管理合约地址
+NEXT_PUBLIC_ORDER_REGISTRY= #订单管理合约地址
+```
+
 ### 本地启动 Next.js 开发服务器
 
 控制台切换路径到`packages/front-end`
@@ -522,6 +530,8 @@ yarn dev
 
 ![dev-server-browser](./images/readme/dev-server-browser.png)
 
+如要使用完整功能需要设置[其它环境变量](#-环境变量配置)
+
 ## 生产环境
 
 ### 配置 Pinata
@@ -535,8 +545,6 @@ yarn dev
 ### 启动 Next.js 打包后的服务器
 
 ### 发布到 Vercel
-
-
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
