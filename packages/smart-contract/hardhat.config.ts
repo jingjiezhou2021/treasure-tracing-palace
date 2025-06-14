@@ -21,7 +21,7 @@ const config: HardhatUserConfig&{etherscan:Partial<EtherscanConfig>} = {
       chainId: 31337,
     },
     sepolia: {
-      url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.ALCHEMY_ID}`,
+      url: `${process.env.SEPOLIA_RPC_URL}`,
       chainId: 11155111, // Sepolia's network ID
       accounts:{
         mnemonic:process.env.MNEMONIC,
