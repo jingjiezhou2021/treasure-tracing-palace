@@ -2,11 +2,15 @@
   "name": "front-end",
   "version": "1.0.0",
   "scripts": {
-    "build": "next build",
-    "dev": "cross-env NODE_ENV=development next dev",
+    "build": "cross-env NODE_ENV=production yarn generate-abi && next build",
+    "dev": "cross-env NODE_ENV=development yarn generate-abi && next dev",
     "postinstall": "prisma generate",
-    "start": "cross-env NODE_ENV=production next start",
-    "lint": "eslint app"
+    "start": "cross-env NODE_ENV=production yarn generate-abi && next start",
+    "dev-start": "cross-env NODE_ENV=development yarn generate-abi && next start",
+    "lint": "eslint app",
+    "generate-abi":"tsx scripts/generate-abi.ts",
+    "dev-studio": "dotenv -e .env.development -- prisma studio",
+    "production-studio": "dotenv -e .env.production -- prisma studio"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -25,7 +29,8 @@
     "tailwindcss": "3.4.17",
     "typescript": "5.7.3",
     "use-debounce": "^10.0.4",
-    "zod": "^3.24.3"
+    "zod": "^3.24.3",
+    "smart-contract":"1.0.0"
   },
   "devDependencies": {
     "@ant-design/icons": "^6.0.0",
