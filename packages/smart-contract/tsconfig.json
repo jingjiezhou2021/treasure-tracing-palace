@@ -6,8 +6,19 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "composite": true,
+    "outDir": "./dist",
   },
-  "include": ["./ignition", "./test", "./build/typechain-types"],
-  "files": ["./hardhat.config.ts"],
+  "include": [
+    "./ignition",
+    "./test",
+    "./build/**/*.json",
+    "./src/*.json",
+    "./src",
+    "./build/typechain-types"
+  ],
+  "files": [
+    "./hardhat.config.ts"
+  ],
 }

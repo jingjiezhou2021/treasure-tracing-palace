@@ -1,8 +1,16 @@
 {
-  "name": "smart-contracts",
+  "name": "smart-contract",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "main": "./dist/src/index",
+  "types": "./dist/src/index",
+  "scripts": {
+    "compile":"hardhat compile && tsc",
+    "clean":"hardhat clean && tsc --build --clean",
+    "postinstall": "yarn compile",
+    "dev-deploy":"hardhat ignition deploy ignition/modules/TreasureTracing.ts --network development",
+    "deploy":"hardhat ignition deploy ignition/modules/TreasureTracing.ts --network sepolia --verify"
+  },
   "devDependencies": {
     "@chainlink/contracts": "^1.3.0",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
