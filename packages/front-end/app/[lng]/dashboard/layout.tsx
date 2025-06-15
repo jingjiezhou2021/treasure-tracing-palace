@@ -8,7 +8,11 @@ import { SSRWagmiProvider } from '@/app/ui/dashboard/context/wagmeProvider';
 import { getConfig } from '@/wagme-config';
 import GoBack from '@/app/ui/dashboard/goback';
 import { TreasureTracingProvider } from '../../ui/dashboard/context/TreasureTracingProvider';
+import { languages } from '@/app/i18n/settings';
 export const experimental_ppr = true;
+export async function generateStaticParams() {
+	return languages.map((lng) => ({ lng }));
+}
 export default async function Layout({
 	children,
 }: {
