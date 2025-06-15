@@ -49,6 +49,7 @@ export async function authenticate(
 		if (error instanceof AuthError) {
 			return error.message;
 		}
+		// redirection works by throwing error
 		throw error;
 	}
 }
