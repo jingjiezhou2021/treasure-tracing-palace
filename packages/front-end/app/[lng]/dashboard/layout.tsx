@@ -7,7 +7,7 @@ import { cookieToInitialState } from 'wagmi';
 import { SSRWagmiProvider } from '@/app/ui/dashboard/context/wagmeProvider';
 import { getConfig } from '@/wagme-config';
 import GoBack from '@/app/ui/dashboard/goback';
-import { TreasureTracingProvider } from '../ui/dashboard/context/TreasureTracingProvider';
+import { TreasureTracingProvider } from '../../ui/dashboard/context/TreasureTracingProvider';
 export const experimental_ppr = true;
 export default async function Layout({
 	children,
