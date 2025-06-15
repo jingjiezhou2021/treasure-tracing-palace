@@ -9,66 +9,72 @@ import {
 	ShoppingBagIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import { fetchUserByEmail } from '@/app/lib/data';
 import { useSession } from 'next-auth/react';
 import { ReactElement, useEffect, useState } from 'react';
 import { Role } from '@/generated/prisma';
+import { useT } from '@/app/i18n/client';
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
-const manufacturerLinks = [
-	{ name: '综合数据', href: '/dashboard', icon: HomeIcon },
-	{
-		name: '库存管理',
-		href: '/dashboard/warehouse',
-		icon: ArchiveBoxArrowDownIcon,
-	},
-	{
-		name: '订单管理',
-		href: '/dashboard/orders',
-		icon: DocumentDuplicateIcon,
-	},
-	{ name: '商品溯源', href: '/dashboard/tracing', icon: NewspaperIcon },
-];
-const distributorLinks = [
-	{ name: '综合数据', href: '/dashboard', icon: HomeIcon },
-	{
-		name: '商品采购',
-		href: '/dashboard/purchase',
-		icon: BuildingStorefrontIcon,
-	},
-	{
-		name: '商品零售',
-		href: '/dashboard/retail',
-		icon: ShoppingBagIcon,
-	},
-	{
-		name: '库存管理',
-		href: '/dashboard/warehouse',
-		icon: ArchiveBoxArrowDownIcon,
-	},
-	{
-		name: '订单管理',
-		href: '/dashboard/orders',
-		icon: DocumentDuplicateIcon,
-	},
-];
-
-const customerLinks = [
-	{
-		name: '商品购买',
-		href: '/dashboard/customer/retail',
-		icon: ShoppingBagIcon,
-	},
-	{
-		name: '订单管理',
-		href: '/dashboard/orders',
-		icon: DocumentDuplicateIcon,
-	},
-];
 
 export default function NavLinks() {
+	const { t } = useT('dashboard');
+	const manufacturerLinks = [
+		{ name: t('综合数据'), href: '/dashboard', icon: HomeIcon },
+		{
+			name: t('库存管理'),
+			href: '/dashboard/warehouse',
+			icon: ArchiveBoxArrowDownIcon,
+		},
+		{
+			name: t('订单管理'),
+			href: '/dashboard/orders',
+			icon: DocumentDuplicateIcon,
+		},
+		{
+			name: t('商品溯源'),
+			href: '/dashboard/tracing',
+			icon: NewspaperIcon,
+		},
+	];
+	const distributorLinks = [
+		{ name: t('综合数据'), href: '/dashboard', icon: HomeIcon },
+		{
+			name: t('商品采购'),
+			href: '/dashboard/purchase',
+			icon: BuildingStorefrontIcon,
+		},
+		{
+			name: t('商品零售'),
+			href: '/dashboard/retail',
+			icon: ShoppingBagIcon,
+		},
+		{
+			name: t('库存管理'),
+			href: '/dashboard/warehouse',
+			icon: ArchiveBoxArrowDownIcon,
+		},
+		{
+			name: t('订单管理'),
+			href: '/dashboard/orders',
+			icon: DocumentDuplicateIcon,
+		},
+	];
+	const customerLinks = [
+		{
+			name: t('商品购买'),
+			href: '/dashboard/customer/retail',
+			icon: ShoppingBagIcon,
+		},
+		{
+			name: t('订单管理'),
+			href: '/dashboard/orders',
+			icon: DocumentDuplicateIcon,
+		},
+	];
+	const lng = useParams()?.lng;
 	const session = useSession();
 	const [links, setLinks] = useState<
 		{
@@ -110,10 +116,11 @@ export default function NavLinks() {
 							'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-orange-50 hover:text-orange-600 md:flex-none md:justify-start md:p-2 md:px-3',
 							{
 								'bg-orange-50 text-orange-600':
-									pathname === '/dashboard'
-										? pathname === link.href
-										: pathname.startsWith(link.href) &&
-											link.href !== '/dashboard',
+									pathname === `/${lng}/dashboard`
+										? pathname === `/${lng}${link.href}`
+										: pathname.startsWith(
+												`/${lng}${link.href}`,
+											) && link.href !== '/dashboard',
 							},
 						)}
 					>

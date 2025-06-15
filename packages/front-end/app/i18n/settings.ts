@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import acceptLanguage from 'accept-language';
 export const fallbackLng = 'en';
-export const languages = [fallbackLng, 'zh'];
+export const languages = [fallbackLng, 'zh'] as const;
 export const defaultNS = 'translation';
 export const cookieName = 'i18next';
 export const headerName = 'x-i18next-current-language';
-export type i18namespace = 'common' | 'login_and_register';
+export type i18namespace = 'common' | 'login_and_register' | 'dashboard';
 
 export function i18nInterceptor(req: NextRequest) {
-	acceptLanguage.languages(languages);
+	acceptLanguage.languages([...languages]);
 	// Ignore paths with "icon" or "chrome"
 	if (req.method !== 'GET') {
 		return true;
