@@ -80,17 +80,17 @@ export default function LoginForm() {
 					</Button>
 				</Link>
 
-				<div className="flex h-8 items-end space-x-1">
-					{/* Add form errors here */}
-					{errorMessage && (
-						<>
+				{/* Add form errors here */}
+				{errorMessage && (
+					<>
+						<div className="flex items-end space-x-1">
 							<ExclamationCircleIcon className="h-5 w-5 text-red-500" />
 							<p className="text-sm text-red-500">
 								{errorMessage}
 							</p>
-						</>
-					)}
-				</div>
+						</div>
+					</>
+				)}
 			</div>
 		</form>
 	);

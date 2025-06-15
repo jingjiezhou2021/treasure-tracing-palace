@@ -47,14 +47,8 @@ export async function authenticate(
 		await signIn('credentials', formData);
 	} catch (error) {
 		if (error instanceof AuthError) {
-			switch ((error as any).type) {
-				case 'CredentialsSignin':
-					return 'Invalid credentials.';
-				default:
-					return 'Something went wrong.';
-			}
+			return error.message;
 		}
-		throw error;
 	}
 }
 

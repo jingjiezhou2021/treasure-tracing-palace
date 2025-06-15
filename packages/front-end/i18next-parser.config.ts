@@ -9,12 +9,19 @@ module.exports = {
 		}
 	},
 	output: 'public/locales/$LOCALE/$NAMESPACE.json',
-	input: ['app/**/*.{js,jsx,ts,tsx}'],
+	input: ['app/**/*.{js,jsx,ts,tsx}', './auth.ts'],
 	createOldCatalogs: false,
 	keepRemoved: false,
 	sort: true,
 	lexers: {
 		tsx: [
+			{
+				lexer: 'JavascriptLexer',
+				functions: ['t'], // Array of functions to match
+				namespaceFunctions: ['useT', 'getT'], // Array of functions to match for namespace
+			},
+		],
+		ts: [
 			{
 				lexer: 'JavascriptLexer',
 				functions: ['t'], // Array of functions to match

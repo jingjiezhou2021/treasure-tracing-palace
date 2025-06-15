@@ -19,6 +19,9 @@ export const config = {
 
 export function middleware(req: NextRequest) {
 	// Ignore paths with "icon" or "chrome"
+	if (req.method !== 'GET') {
+		return;
+	}
 	if (
 		req.nextUrl.pathname.indexOf('icon') > -1 ||
 		req.nextUrl.pathname.indexOf('chrome') > -1
