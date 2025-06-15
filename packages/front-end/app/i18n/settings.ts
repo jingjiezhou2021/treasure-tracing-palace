@@ -8,6 +8,7 @@ export const headerName = 'x-i18next-current-language';
 export type i18namespace = 'common' | 'login_and_register';
 
 export function i18nInterceptor(req: NextRequest) {
+	acceptLanguage.languages(languages);
 	// Ignore paths with "icon" or "chrome"
 	if (req.method !== 'GET') {
 		return true;
@@ -23,7 +24,7 @@ export function i18nInterceptor(req: NextRequest) {
 	if (req.cookies.has(cookieName))
 		lng = acceptLanguage.get(req.cookies.get(cookieName)!.value);
 	// If no cookie, check the Accept-Language header
-	if (!lng) lng = acceptLanguage.get(req.headers.get('Accept-Language'));
+	if (!lng) lng = acceptLanguage.get(req.headers.get('accept-language'));
 	// Default to fallback language if still undefined
 	if (!lng) lng = fallbackLng;
 
