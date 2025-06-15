@@ -22,6 +22,7 @@ import { UsdtCircleColorful } from '@ant-design/web3-icons';
 import ClientCryptoPrice from '../../components/ClientCryptoPrice';
 import { useSession } from 'next-auth/react';
 import { ProductStatusSolidity } from '@/app/lib/utils';
+import { useT } from '@/app/i18n/client';
 type Row = product_types & { products: products[] };
 interface ProductTableProps {
 	product_types: Row[];
@@ -42,6 +43,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
 	product_types,
 	productId_isOnChain,
 }) => {
+	const { t } = useT('dashboard');
 	const session = useSession();
 	const [messageApi, contextHolder] = message.useMessage();
 	const { writeContractAsync, isPending } = useWriteContract();
@@ -77,13 +79,13 @@ const ProductTable: React.FC<ProductTableProps> = ({
 		}
 		try {
 			// 构造上链参数（注意字段顺序一定和Solidity里结构体一一对应）
-			messageApi.loading('商品上链中');
+			messageApi.loading(t('商品上链中'));
 			await new Promise((res) => {
 				setTimeout(res, 500);
 			});
 			const productInput = await computeProductInput(record);
 			if (productInput === null) {
-				throw new Error('product input is empty');
+				throw new Error(t('商品信息有误'));
 			}
 			console.log('productInput:', Object.values(productInput));
 			// 发交易
@@ -108,22 +110,22 @@ const ProductTable: React.FC<ProductTableProps> = ({
 					},
 				],
 			});
-			messageApi.success('商品上链交易发送成功！');
-			console.log('交易哈希:', tx);
+			messageApi.success(t('商品上链交易发送成功！'));
+			console.log('transaction hash', tx);
 		} catch (error: any) {
 			console.error(error);
-			messageApi.error(error.shortMessage || '上链失败');
+			messageApi.error(error.shortMessage || t('上链失败'));
 		}
 	};
 
 	const columns = [
 		{
-			title: '商品名称',
+			title: t('商品名称'),
 			dataIndex: 'name',
 			key: 'name',
 		},
 		{
-			title: '商品采购价格',
+			title: t('商品采购价格'),
 			dataIndex: 'price',
 			key: 'price',
 			render: (price: number) => {
@@ -136,7 +138,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
 			unsearchable: true,
 		},
 		{
-			title: '描述',
+			title: t('描述'),
 			dataIndex: 'description',
 			key: 'description',
 			width: 400,
@@ -154,10 +156,10 @@ const ProductTable: React.FC<ProductTableProps> = ({
 						<FilterTable
 							data={record.products.map((p) => {
 								const tmp: Record<ProductStatus, string> = {
-									[ProductStatus.MANUFACTURING]: '已生产',
-									[ProductStatus.DISTRIBUTING]: '运输中',
-									[ProductStatus.FOR_SALE]: '销售中',
-									[ProductStatus.SOLD]: '已销售',
+									[ProductStatus.MANUFACTURING]: t('已生产'),
+									[ProductStatus.DISTRIBUTING]: t('运输中'),
+									[ProductStatus.FOR_SALE]: t('销售中'),
+									[ProductStatus.SOLD]: t('已销售'),
 								};
 								return {
 									...p,
@@ -169,22 +171,22 @@ const ProductTable: React.FC<ProductTableProps> = ({
 							})}
 							columns={[
 								{
-									title: '商品序列号',
+									title: t('商品序列号'),
 									dataIndex: 'serialNumber',
 									key: 'serialNumber',
 								},
 								{
-									title: '生产日期',
+									title: t('生产日期'),
 									dataIndex: 'manufactureDate',
 									key: 'manufactureDate',
 								},
 								{
-									title: '登记日期',
+									title: t('登记日期'),
 									dataIndex: 'createdAt',
 									key: 'createdAt',
 								},
 								{
-									title: '状态',
+									title: t('状态'),
 									dataIndex: 'status',
 									key: 'status',
 								},
@@ -203,14 +205,14 @@ const ProductTable: React.FC<ProductTableProps> = ({
 											handleUploadToBlockchain(id);
 										}}
 									>
-										{'数据上链'}
+										{t('数据上链')}
 									</Button>
 								) : (
 									<Link
 										href={`/dashboard/tracing/product/${id}`}
 									>
 										<Button variant="solid" color="green">
-											商品追溯
+											{t('商品追溯')}
 										</Button>
 									</Link>
 								);
@@ -227,20 +229,22 @@ const ProductTable: React.FC<ProductTableProps> = ({
 										href={`/dashboard/product/create/${id}`}
 										className="mr-2"
 									>
-										<Button type="primary">添加记录</Button>
+										<Button type="primary">
+											{t('添加记录')}
+										</Button>
 									</Link>
 									<Popconfirm
-										title="确定要删除吗？"
+										title={t('确定要删除吗？')}
 										onConfirm={() => {}}
-										okText="是"
-										cancelText="否"
+										okText={t('是')}
+										cancelText={t('否')}
 									>
 										<Button
 											variant="solid"
 											color="danger"
 											className="mr-2"
 										>
-											删除
+											{t('删除')}
 										</Button>
 									</Popconfirm>
 									<Link
@@ -248,7 +252,7 @@ const ProductTable: React.FC<ProductTableProps> = ({
 										className="mr-2"
 									>
 										<Button variant="solid" color="green">
-											修改
+											{t('修改')}
 										</Button>
 									</Link>
 								</>
