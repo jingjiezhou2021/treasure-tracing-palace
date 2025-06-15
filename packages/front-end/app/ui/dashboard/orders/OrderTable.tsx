@@ -3,32 +3,34 @@ import FilterTable from '@/app/ui/components/FilterTable';
 import React from 'react';
 import { Button } from 'antd';
 import Link from 'next/link';
-import { UsdtCircleColorful } from '@ant-design/web3-icons';
 import { orders, OrderStatus, product_types } from '@/generated/prisma';
 import ClientCryptoPrice from '../../components/ClientCryptoPrice';
+import { useT } from '@/app/i18n/client';
 interface OrderTableProps {
 	orders: (orders & { productType: product_types })[];
 }
-const mapping = {
-	['PENDING']: '未发货',
-	['CONFIRMED']: '已发货',
-	['DELIVERED']: '已收货',
-	['PAID']: '已收款',
-};
+
 const ProductTable: React.FC<OrderTableProps> = ({ orders }) => {
+	const { t } = useT('dashboard');
+	const mapping = {
+		['PENDING']: t('未发货'),
+		['CONFIRMED']: t('已发货'),
+		['DELIVERED']: t('已收货'),
+		['PAID']: t('已收款'),
+	};
 	const columns = [
 		{
-			title: '订单编号',
+			title: t('订单编号'),
 			dataIndex: 'id',
 			key: 'id',
 		},
 		{
-			title: '商品名称',
+			title: t('商品名称'),
 			dataIndex: 'product_name',
 			key: 'product_name',
 		},
 		{
-			title: '锁定价格',
+			title: t('锁定价格'),
 			dataIndex: 'lockedPrice',
 			key: 'lockedPrice',
 			render: (price: number) => {
@@ -41,27 +43,27 @@ const ProductTable: React.FC<OrderTableProps> = ({ orders }) => {
 			unsearchable: true,
 		},
 		{
-			title: '购买数量',
+			title: t('购买数量'),
 			dataIndex: 'quantity',
 			key: 'quantity',
 		},
 		{
-			title: '收货地址',
+			title: t('收货地址'),
 			dataIndex: 'shippingAddress',
 			key: 'shippingAddress',
 		},
 		{
-			title: '收货人',
+			title: t('收货人'),
 			dataIndex: 'recipientName',
 			key: 'recipientName',
 		},
 		{
-			title: '联系电话',
+			title: t('联系电话'),
 			dataIndex: 'phoneNumber',
 			key: 'phoneNumber',
 		},
 		{
-			title: '订单状态',
+			title: t('订单状态'),
 			dataIndex: 'status',
 			key: 'status',
 		},
@@ -88,7 +90,7 @@ const ProductTable: React.FC<OrderTableProps> = ({ orders }) => {
 								className="mr-2"
 							>
 								<Button variant="solid" color="green">
-									详情
+									{t('详情')}
 								</Button>
 							</Link>
 						</>

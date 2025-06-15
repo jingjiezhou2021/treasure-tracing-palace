@@ -5,10 +5,13 @@ import { auth } from '@/auth';
 import { fetchSellingOrdersByCompany, fetchUserByEmail } from '@/app/lib/data';
 import { orders, OrderStatus } from '@/generated/prisma';
 import { parseUnits } from 'viem';
+import { AuthError } from 'next-auth';
+import { getT } from '@/app/i18n';
 export default async function DashInfo() {
+	const { t } = await getT('dashboard');
 	const session = await auth();
 	if (!session?.user?.email) {
-		throw new Error('未登录或 session 信息不完整');
+		throw new AuthError(t('未登录或 session 信息不完整'));
 	}
 	// 根据用户邮箱查公司 ID
 	const user = await fetchUserByEmail(session.user.email);
@@ -33,12 +36,12 @@ export default async function DashInfo() {
 	).size;
 	return (
 		<>
-			<Card title="总销售额">
+			<Card title={t('总销售额')}>
 				<ClientCryptoPrice value={totalSalesCapital} />
 			</Card>
-			<Card title="总销量">{totalSales}</Card>
-			<Card title="订单数量">{orders.length}</Card>
-			<Card title="客户数量">{numOfClients}</Card>
+			<Card title={t('总销量')}>{totalSales}</Card>
+			<Card title={t('订单数量')}>{orders.length}</Card>
+			<Card title={t('客户数量')}>{numOfClients}</Card>
 		</>
 	);
 }

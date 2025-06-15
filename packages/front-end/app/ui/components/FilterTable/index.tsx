@@ -6,6 +6,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import type { InputRef, TableColumnType } from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
+import { useT } from '@/app/i18n/client';
 
 function FilterTable<
 	DataIndex extends string,
@@ -33,6 +34,7 @@ function FilterTable<
 	expandedRowRender?: (record: DataType) => React.ReactNode;
 	children?: (id: number | string) => ReactNode;
 }) {
+	const { t } = useT('dashboard');
 	const [dataSource, setDataSource] = useState(data);
 	const [searchText, setSearchText] = useState('');
 	const [searchedColumn, setSearchedColumn] = useState('');
@@ -68,7 +70,7 @@ function FilterTable<
 				>
 					<Input
 						ref={searchInput}
-						placeholder={`搜索 ${dataIndex}`}
+						placeholder={`${t('搜索')} ${dataIndex}`}
 						value={selectedKeys[0]}
 						onChange={(e) =>
 							setSelectedKeys(
@@ -98,7 +100,7 @@ function FilterTable<
 							size="small"
 							style={{ width: 90 }}
 						>
-							搜索
+							{t('搜索')}
 						</Button>
 						<Button
 							onClick={() =>
@@ -107,7 +109,7 @@ function FilterTable<
 							size="small"
 							style={{ width: 90 }}
 						>
-							重置
+							{t('重置')}
 						</Button>
 						<Button
 							type="link"
@@ -116,7 +118,7 @@ function FilterTable<
 								close();
 							}}
 						>
-							关闭
+							{t('关闭')}
 						</Button>
 					</Space>
 				</div>
@@ -175,7 +177,7 @@ function FilterTable<
 	];
 	if (children) {
 		tabColumns.push({
-			title: '操作',
+			title: t('操作'),
 			key: 'action',
 			render: (_: any, record: DataType) => <>{children(record.id)}</>,
 			fixed: 'right',
