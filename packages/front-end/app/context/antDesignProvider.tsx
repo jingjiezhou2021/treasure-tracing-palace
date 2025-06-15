@@ -1,7 +1,7 @@
 'use client';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { ConfigProvider } from 'antd';
-import { Web3ConfigProvider, zh_CN } from '@ant-design/web3';
+import { Web3ConfigProvider } from '@ant-design/web3';
 import { ReactNode } from 'react';
 export default function AntDesignCustomConfigProvider({
 	children,
@@ -9,7 +9,7 @@ export default function AntDesignCustomConfigProvider({
 	children: ReactNode;
 }) {
 	return (
-		<Web3ConfigProvider locale={zh_CN}>
+		<Web3ConfigProvider>
 			<AntdRegistry>
 				<ConfigProvider
 					theme={{
