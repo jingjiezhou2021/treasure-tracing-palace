@@ -11,10 +11,10 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { getT } from '@/app/i18n';
 
-export const metadata: Metadata = {
-	title: 'Overview',
-	description: 'Overview page for Next.js dashboard',
-};
+export async function generateMetadata(): Promise<Metadata> {
+	const { t } = await getT('dashboard');
+	return { title: t('总览'), description: t('溯宝阁后台管理总览页面') };
+}
 export default async function Page() {
 	const { t } = await getT('dashboard');
 	const session = await auth();
