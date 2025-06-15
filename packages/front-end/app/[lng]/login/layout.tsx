@@ -1,5 +1,9 @@
 import AcmeLogo from '@/app/ui/acme-logo';
 import { Suspense } from 'react';
+import { languages } from '@/app/i18n/settings';
+export async function generateStaticParams() {
+	return languages.map((lng) => ({ lng }));
+}
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<main className="flex justify-center">

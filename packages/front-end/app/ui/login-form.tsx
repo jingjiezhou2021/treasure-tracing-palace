@@ -11,9 +11,11 @@ import { useActionState } from 'react';
 import { authenticate } from '@/app/lib/actions';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { useT } from '@/app/i18n/client';
 
 export default function LoginForm() {
 	const searchParams = useSearchParams();
+	const { t } = useT('login_and_register');
 	const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
 	const [errorMessage, formAction, isPending] = useActionState(
 		authenticate,
@@ -23,7 +25,7 @@ export default function LoginForm() {
 		<form action={formAction} className="space-y-3">
 			<div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
 				<h1 className={`${lusitana.className} mb-3 text-2xl`}>
-					登录以继续.
+					{t('登录以继续')}
 				</h1>
 				<div className="w-full">
 					<div>
@@ -31,7 +33,7 @@ export default function LoginForm() {
 							className="mb-3 mt-5 block text-xs font-medium text-gray-900"
 							htmlFor="email"
 						>
-							邮箱地址
+							{t('邮箱地址')}
 						</label>
 						<div className="relative">
 							<input
@@ -39,7 +41,7 @@ export default function LoginForm() {
 								id="email"
 								type="email"
 								name="email"
-								placeholder="输入账号绑定的邮箱地址"
+								placeholder={t('输入账号绑定的邮箱地址')}
 								required
 							/>
 							<AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
@@ -50,7 +52,7 @@ export default function LoginForm() {
 							className="mb-3 mt-5 block text-xs font-medium text-gray-900"
 							htmlFor="password"
 						>
-							密码
+							{t('密码')}
 						</label>
 						<div className="relative">
 							<input
@@ -58,7 +60,7 @@ export default function LoginForm() {
 								id="password"
 								type="password"
 								name="password"
-								placeholder="输入密码"
+								placeholder={t('输入密码')}
 								required
 								minLength={6}
 							/>
@@ -68,12 +70,12 @@ export default function LoginForm() {
 				</div>
 				<input type="hidden" name="redirectTo" value={callbackUrl} />
 				<Button className="mt-4 !w-full" loading={isPending}>
-					登陆{' '}
+					{t('登录')}
 					<ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
 				</Button>
 				<Link href={'/login/register'}>
 					<Button className="mt-4 w-full" type="button">
-						注册{' '}
+						{t('注册')}
 						<ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
 					</Button>
 				</Link>

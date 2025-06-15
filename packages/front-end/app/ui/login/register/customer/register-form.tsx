@@ -4,25 +4,26 @@ import { useFormik } from 'formik';
 import { AtSymbolIcon, KeyIcon } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/ui/button';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { Role } from '@/generated/prisma';
 import * as Yup from 'yup';
 import { registerCustomer as register } from '@/app/lib/actions';
 import Link from 'next/link';
+import { useT } from '@/app/i18n/client';
 
 export default function RegisterForm() {
-	const { replace } = useRouter();
+	const { t } = useT('login_and_register');
 	const searchParams = useSearchParams();
 	const validationSchema = Yup.object({
-		email: Yup.string().email('邮箱格式不正确').required('必填'),
-		name: Yup.string().required('必填'),
+		email: Yup.string().email(t('邮箱格式不正确')).required(t('必填')),
+		name: Yup.string().required(t('必填')),
 		password: Yup.string()
-			.min(6, '密码不能少于6位')
+			.min(6, t('密码不能少于6位'))
 			.max(25)
-			.required('必填'),
+			.required(t('必填')),
 		confirmPassword: Yup.string()
-			.oneOf([Yup.ref('password')], '两次密码不一致')
-			.required('必填'),
+			.oneOf([Yup.ref('password')], t('两次密码不一致'))
+			.required(t('必填')),
 	});
 	const formik = useFormik({
 		initialValues: {
@@ -51,7 +52,7 @@ export default function RegisterForm() {
 				className="mb-1 block text-xs font-medium text-gray-900"
 				htmlFor={id}
 			>
-				{optional && '（选填）'} {label}
+				{optional && t('（选填）')} {label}
 			</label>
 			<div className="relative">
 				<input
@@ -62,7 +63,7 @@ export default function RegisterForm() {
 					onBlur={formik.handleBlur}
 					value={(formik.values as any)[id]}
 					className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-					placeholder={`输入${label}`}
+					placeholder={`${t(`输入`)} ${label}`}
 				/>
 				<Icon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
 			</div>
@@ -75,15 +76,15 @@ export default function RegisterForm() {
 		<form onSubmit={formik.handleSubmit} className="space-y-3">
 			<div className="flex-1 rounded-lg  px-6 pb-4 pt-8">
 				<h1 className={`${lusitana.className} mb-3 text-2xl`}>
-					注册以继续.
+					{t('注册以继续')}
 				</h1>
 				<div className="w-full">
-					{renderInput('email', '邮箱地址', 'email', AtSymbolIcon)}
-					{renderInput('name', '真实姓名', 'text', AtSymbolIcon)}
-					{renderInput('password', '密码', 'password', KeyIcon)}
+					{renderInput('email', t('邮箱地址'), 'email', AtSymbolIcon)}
+					{renderInput('name', t('真实姓名'), 'text', AtSymbolIcon)}
+					{renderInput('password', t('密码'), 'password', KeyIcon)}
 					{renderInput(
 						'confirmPassword',
-						'确认密码',
+						t('确认密码'),
 						'password',
 						KeyIcon,
 					)}
@@ -96,12 +97,12 @@ export default function RegisterForm() {
 				/>
 				<hr className="mt-4" />
 				<Button className="mt-4 !w-full" loading={formik.isSubmitting}>
-					注册{' '}
+					{t('注册')}
 					<ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
 				</Button>
 				<Link href={'/login'}>
 					<Button className="mt-4 w-full" type="button">
-						返回登陆{' '}
+						{t('返回登陆')}
 						<ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
 					</Button>
 				</Link>
