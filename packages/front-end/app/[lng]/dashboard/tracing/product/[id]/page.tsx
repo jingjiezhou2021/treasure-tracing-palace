@@ -67,7 +67,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 				</Descriptions.Item>
 
 				<Descriptions.Item label={t('商品状态')}>
-					{ProductStatusToString(productOnChain.status)}
+					{ProductStatusToString(productOnChain.status, t)}
 				</Descriptions.Item>
 			</ProductInfo>
 			<div className="mb-6">

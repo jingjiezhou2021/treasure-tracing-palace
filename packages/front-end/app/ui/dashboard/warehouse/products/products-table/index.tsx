@@ -43,7 +43,7 @@ export default function ProductsTable({
 					dataIndex: 'status',
 					key: 'status',
 					render(val: ProductStatus) {
-						return ProductStatusToString(val);
+						return ProductStatusToString(val, t);
 					},
 				},
 				{

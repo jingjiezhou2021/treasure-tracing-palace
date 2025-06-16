@@ -1,4 +1,5 @@
 import { ProductStatus } from '@/generated/prisma';
+import { TFunction } from 'i18next';
 export enum ProductStatusSolidity {
 	MANUFACTURING,
 	DISTRIBUTING,
@@ -7,6 +8,7 @@ export enum ProductStatusSolidity {
 }
 export function ProductStatusToString(
 	status: ProductStatus | ProductStatusSolidity,
+	t?: TFunction,
 ) {
 	const tmp: Record<typeof status, string> = {
 		[ProductStatus.MANUFACTURING]: '已生产',
@@ -18,6 +20,11 @@ export function ProductStatusToString(
 		[ProductStatusSolidity.FOR_SALE]: '销售中',
 		[ProductStatusSolidity.SOLD]: '已销售',
 	};
+	if (t) {
+		for (const key in tmp) {
+			tmp[key as typeof status] = t(tmp[key as typeof status]);
+		}
+	}
 	return tmp[status];
 }
 

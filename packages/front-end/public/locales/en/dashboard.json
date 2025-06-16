@@ -63,6 +63,7 @@
   "已生产": "Production",
   "已销售": "Sold",
   "已领取": "Received",
+  "已领取金额": "Amount received",
   "序列号": "Serial number",
   "序列号不能为空": "The serial number cannot be empty",
   "库存数量": "Inventory quantity",

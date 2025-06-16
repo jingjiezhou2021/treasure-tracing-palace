@@ -27,8 +27,9 @@ export default function ReceiveMoney({
 		<section className="mb-6">
 			{contextHolder}
 			<h2 className="text-lg font-semibold">
-				{order.status === OrderStatus.PAID ? '已' : ''}
-				{t('领取金额')}
+				{order.status === OrderStatus.PAID
+					? t('已领取金额')
+					: t('领取金额')}
 			</h2>
 			<p className="text-xl font-bold flex justify-between">
 				<ClientCryptoPrice value={order.totalPrice - 1n} />
