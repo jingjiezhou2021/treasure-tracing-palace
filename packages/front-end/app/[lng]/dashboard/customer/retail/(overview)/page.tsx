@@ -1,8 +1,10 @@
+import { getT } from '@/app/i18n';
 import { fetchCommodoties } from '@/app/lib/data';
 import CardsGrid from '@/app/ui/components/cardsGrid';
 import { ProductStatus } from '@/generated/prisma';
 
 export default async function Page() {
+	const { t } = await getT('dashboard');
 	const commodoties = await fetchCommodoties();
 	return (
 		<CardsGrid
@@ -15,7 +17,7 @@ export default async function Page() {
 					description: (
 						<>
 							<span className="block">
-								库存数量：
+								{t('库存数量')}：
 								{
 									c.productType.products.filter(
 										(p) =>
@@ -24,7 +26,7 @@ export default async function Page() {
 								}
 							</span>
 							<span className="block">
-								销售商：
+								{t('销售商')}：
 								{c.creator.mycompany?.name ??
 									c.creator.foundedCompany[0].name ??
 									c.creator.email}
