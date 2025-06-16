@@ -2,24 +2,25 @@
 import { fetchOrderById } from '@/app/lib/data';
 import FilterTable from '../../components/FilterTable';
 import ClientCryptoPrice from '../../components/ClientCryptoPrice';
-import { UsdtCircleColorful } from '../../components/ClientIcons';
 import { product_types, products, ProductStatus } from '@/generated/prisma';
 import Link from 'next/link';
 import { Button } from 'antd';
+import { useT } from '@/app/i18n/client';
 
 export default function OrdersItemTable({
 	order,
 }: {
 	order: NonNullable<Awaited<ReturnType<typeof fetchOrderById>>>;
 }) {
+	const { t } = useT('dashboard');
 	const columns = [
 		{
-			title: '商品名称',
+			title: t('商品名称'),
 			dataIndex: 'name',
 			key: 'name',
 		},
 		{
-			title: '商品价格',
+			title: t('商品价格'),
 			dataIndex: 'lockedPrice',
 			key: 'lockedPrice',
 			render: (price: bigint | undefined) => {
@@ -33,7 +34,7 @@ export default function OrdersItemTable({
 			unsearchable: true,
 		},
 		{
-			title: '描述',
+			title: t('描述'),
 			dataIndex: 'description',
 			key: 'description',
 			ellipsis: true,
@@ -59,10 +60,10 @@ export default function OrdersItemTable({
 					<FilterTable
 						data={record.products.map((p) => {
 							const tmp: Record<ProductStatus, string> = {
-								[ProductStatus.MANUFACTURING]: '已生产',
-								[ProductStatus.DISTRIBUTING]: '运输中',
-								[ProductStatus.FOR_SALE]: '销售中',
-								[ProductStatus.SOLD]: '已销售',
+								[ProductStatus.MANUFACTURING]: t('已生产'),
+								[ProductStatus.DISTRIBUTING]: t('运输中'),
+								[ProductStatus.FOR_SALE]: t('销售中'),
+								[ProductStatus.SOLD]: t('已销售'),
 							};
 							return {
 								...p,
@@ -74,27 +75,27 @@ export default function OrdersItemTable({
 						})}
 						columns={[
 							{
-								title: '商品序列号',
+								title: t('商品序列号'),
 								dataIndex: 'serialNumber',
 								key: 'serialNumber',
 							},
 							{
-								title: '生产日期',
+								title: t('生产日期'),
 								dataIndex: 'manufactureDate',
 								key: 'manufactureDate',
 							},
 							{
-								title: '登记日期',
+								title: t('登记日期'),
 								dataIndex: 'createdAt',
 								key: 'createdAt',
 							},
 							{
-								title: '状态',
+								title: t('状态'),
 								dataIndex: 'status',
 								key: 'status',
 							},
 							{
-								title: '操作',
+								title: t('操作'),
 								dataIndex: 'action',
 								key: 'action',
 								fixed: 'right',
@@ -109,7 +110,7 @@ export default function OrdersItemTable({
 												variant="solid"
 												color="green"
 											>
-												商品追溯
+												{t('商品追溯')}
 											</Button>
 										</Link>
 									);
