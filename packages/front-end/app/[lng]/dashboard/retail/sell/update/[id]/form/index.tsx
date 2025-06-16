@@ -1,4 +1,5 @@
 'use client';
+import { useT } from '@/app/i18n/client';
 import { updateCommodoty } from '@/app/lib/actions';
 import useUSDTDecimals from '@/app/ui/dashboard/hooks/USDTDecimals';
 import {
@@ -22,6 +23,7 @@ export default function UpdateSellForm({
 		productType: product_types & { products: products[] };
 	};
 }) {
+	const { t } = useT('dashboard');
 	const [messageApi, messageContext] = useMessage();
 	const router = useRouter();
 	const USDTDecimals = useUSDTDecimals();
@@ -33,14 +35,14 @@ export default function UpdateSellForm({
 				creatorId: commodoty.creatorId as null | string,
 			}}
 			validationSchema={Yup.object({
-				price: Yup.number().required('价格不能为空'),
+				price: Yup.number().required(t('价格不能为空')),
 			})}
 			onSubmit={(values) => {
 				updateCommodoty(commodoty.id, {
 					CommodotyPrice: values.price!,
 				})
 					.then(() => {
-						return messageApi.success('更新零售商品信息成功');
+						return messageApi.success(t('更新零售商品信息成功'));
 					})
 					.then(() => {
 						router.push('/dashboard/retail/sell');
@@ -64,7 +66,7 @@ export default function UpdateSellForm({
 						{/* 👇 不可编辑但展示 */}
 						<div>
 							<label className="block mb-2 font-medium">
-								商品种类
+								{t('商品种类')}
 							</label>
 							{commodoty.productType.name}
 						</div>
@@ -72,7 +74,7 @@ export default function UpdateSellForm({
 						<>
 							<div>
 								<label className="block mb-2 font-medium">
-									商品图片
+									{t('商品图片')}
 								</label>
 								<Image
 									src={`/api/ipfs/file?cid=${commodoty.productType.coverCid}`}
@@ -81,7 +83,7 @@ export default function UpdateSellForm({
 							</div>
 							<div>
 								<label className="block mb-2 font-medium">
-									零售价格
+									{t('零售价格')}
 								</label>
 								<CryptoInput
 									disabled
@@ -117,7 +119,7 @@ export default function UpdateSellForm({
 							</div>
 							<div>
 								<label className="block mb-2 font-medium">
-									库存数量
+									{t('库存数量')}
 								</label>
 								{
 									commodoty.productType.products.filter(
@@ -134,7 +136,7 @@ export default function UpdateSellForm({
 							className="mr-4"
 							loading={isSubmitting}
 						>
-							提交
+							{t('提交')}
 						</Button>
 					</form>
 				);

@@ -1,4 +1,5 @@
 'use client';
+import { useT } from '@/app/i18n/client';
 import ProductsTable from '@/app/ui/dashboard/warehouse/products/products-table';
 import { products } from '@/generated/prisma';
 import { Button } from 'antd';
@@ -9,6 +10,7 @@ export default function ProductsTableWrapper({
 }: {
 	products: products[];
 }) {
+	const { t } = useT('dashboard');
 	return (
 		<ProductsTable
 			products={products}
@@ -16,7 +18,7 @@ export default function ProductsTableWrapper({
 				return (
 					<Link href={`/dashboard/tracing/product/${id}`}>
 						<Button variant="solid" color="green">
-							商品追溯
+							{t('商品追溯')}
 						</Button>
 					</Link>
 				);

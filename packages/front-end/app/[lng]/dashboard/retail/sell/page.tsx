@@ -1,3 +1,4 @@
+import { getT } from '@/app/i18n';
 import { fetchCommodotiesByUser, fetchUserByEmail } from '@/app/lib/data';
 import CardsGrid from '@/app/ui/components/cardsGrid';
 import { auth } from '@/auth';
@@ -8,6 +9,7 @@ import Meta from 'antd/es/card/Meta';
 import Link from 'next/link';
 
 export default async function Page() {
+	const { t } = await getT('dashboard');
 	const session = await auth();
 	const user = await fetchUserByEmail(session?.user?.email!);
 	const commodoties = await fetchCommodotiesByUser(user!);
@@ -19,7 +21,7 @@ export default async function Page() {
 					id: c.id,
 					linkHref: `/dashboard/retail/sell/update/${c.id}`,
 					coverUrl: `/api/ipfs/file?cid=${c.productType.coverCid}`,
-					description: `库存数量：${c.productType.products.filter((p) => p.status === ProductStatus.FOR_SALE).length}`,
+					description: `${t('库存数量：')}${c.productType.products.filter((p) => p.status === ProductStatus.FOR_SALE).length}`,
 				};
 			})}
 		>
@@ -41,7 +43,7 @@ export default async function Page() {
 					<Meta
 						title={
 							<p className="text-center truncate">
-								添加商品到零售
+								{t('添加商品到零售')}
 							</p>
 						}
 					></Meta>

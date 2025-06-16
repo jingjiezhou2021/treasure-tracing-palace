@@ -1,4 +1,5 @@
 'use client';
+import { useT } from '@/app/i18n/client';
 import { addCommodoty } from '@/app/lib/actions';
 import { fetchUserByEmail } from '@/app/lib/data';
 import useUSDTDecimals from '@/app/ui/dashboard/hooks/USDTDecimals';
@@ -24,6 +25,7 @@ export default function AddSellForm({
 }: {
 	product_types: (product_types & { products: products[] })[];
 }) {
+	const { t } = useT('dashboard');
 	const [messageApi, messageContext] = useMessage();
 	const router = useRouter();
 	const USDTDecimals = useUSDTDecimals();
@@ -45,24 +47,23 @@ export default function AddSellForm({
 				creatorId: null as null | string,
 			}}
 			validationSchema={Yup.object({
-				price: Yup.number().required('价格不能为空'),
+				price: Yup.number().required(t('价格不能为空')),
 			})}
 			onSubmit={(values) => {
 				values.creatorId = user?.id!;
-				console.log('提交的值：', values);
 				addCommodoty({
 					productTypeId: values.productTypeId!,
 					creatorId: values.creatorId,
 					CommodotyPrice: values.price!,
 				})
 					.then(() => {
-						return messageApi.success('添加商品到零售成功');
+						return messageApi.success(t('添加商品到零售成功'));
 					})
 					.then(() => {
 						router.push('/dashboard/retail/sell');
 					})
 					.catch((err) => {
-						messageApi.error('添加商品到零售失败', err);
+						messageApi.error(t('添加商品到零售失败'), err);
 					});
 			}}
 		>
@@ -83,7 +84,7 @@ export default function AddSellForm({
 						{/* 👇 不可编辑但展示 */}
 						<div>
 							<label className="block mb-2 font-medium">
-								选择商品种类
+								{t('选择商品种类')}
 							</label>
 							<Select
 								className="w-full"
@@ -104,7 +105,7 @@ export default function AddSellForm({
 							<>
 								<div>
 									<label className="block mb-2 font-medium">
-										商品图片
+										{t('商品图片')}
 									</label>
 									<Image
 										src={`/api/ipfs/file?cid=${selectedProductType.coverCid}`}
@@ -113,7 +114,7 @@ export default function AddSellForm({
 								</div>
 								<div>
 									<label className="block mb-2 font-medium">
-										设置零售价格
+										{t('设置零售价格')}
 									</label>
 									<CryptoInput
 										disabled
@@ -150,7 +151,7 @@ export default function AddSellForm({
 								</div>
 								<div>
 									<label className="block mb-2 font-medium">
-										库存数量
+										{t('库存数量')}
 									</label>
 									{
 										selectedProductType.products.filter(
@@ -169,7 +170,7 @@ export default function AddSellForm({
 							className="mr-4"
 							loading={isSubmitting}
 						>
-							提交
+							{t('提交')}
 						</Button>
 					</form>
 				);

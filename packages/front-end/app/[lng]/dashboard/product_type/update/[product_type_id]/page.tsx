@@ -3,7 +3,11 @@ import { updateProductType } from '@/app/lib/actions';
 import { fetchProductTypeById } from '@/app/lib/data';
 import SingleProductTypeForm from '@/app/ui/dashboard/warehouse/product_type/single_product_type';
 import { notFound } from 'next/navigation';
-
+import { Metadata } from 'next';
+export async function generateMetadata(): Promise<Metadata> {
+	const { t } = await getT('dashboard');
+	return { title: t('修改商品') };
+}
 export default async function Page(props: {
 	params: Promise<{ product_type_id: string }>;
 }) {

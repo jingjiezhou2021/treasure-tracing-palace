@@ -19,7 +19,9 @@ import ClientCryptoPrice from '@/app/ui/components/ClientCryptoPrice';
 import { UsdtCircleColorful } from '@/app/ui/components/ClientIcons';
 import { parseUnits } from 'viem';
 import { orders, Role } from '@/generated/prisma';
+import { getT } from '@/app/i18n';
 export default async function Page(props: { params: Promise<{ id: string }> }) {
+	const { t } = await getT('dashboard');
 	const params = await props.params;
 	const id = parseInt(params.id);
 	const product = await fetchProductById(id);
@@ -47,36 +49,36 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 				imgUrl={`/api/ipfs/file?cid=${product.type?.coverCid}`}
 				name={productOnChain.name}
 			>
-				<Descriptions.Item label="商品序列号">
+				<Descriptions.Item label={t('商品序列号')}>
 					{productOnChain.serialNumber}
 				</Descriptions.Item>
-				<Descriptions.Item label="生产日期">
+				<Descriptions.Item label={t('生产日期')}>
 					{new Date(
 						Number(productOnChain.manufactureDate),
 					).toLocaleString()}
 				</Descriptions.Item>
-				<Descriptions.Item label="登记日期">
+				<Descriptions.Item label={t('登记日期')}>
 					{new Date(
 						Number(productOnChain.createdAt),
 					).toLocaleString()}
 				</Descriptions.Item>
-				<Descriptions.Item label="当前拥有者">
+				<Descriptions.Item label={t('当前拥有者')}>
 					{productOnChain.currentOwnerEmail}
 				</Descriptions.Item>
 
-				<Descriptions.Item label="商品状态">
+				<Descriptions.Item label={t('商品状态')}>
 					{ProductStatusToString(productOnChain.status)}
 				</Descriptions.Item>
 			</ProductInfo>
 			<div className="mb-6">
-				<h1 className="text-2xl font-bold">商品溯源</h1>
+				<h1 className="text-2xl font-bold">{t('商品溯源')}</h1>
 			</div>
 			<Steps
 				direction="vertical"
 				current={productOrdersOnChain.length * 2}
 				items={[
 					{
-						title: '生产商',
+						title: t('生产商'),
 						icon: <ApiOutlined />,
 						subTitle: productOnChain.companyName,
 						description: (
@@ -88,10 +90,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 								}}
 								className="!pt-3"
 							>
-								<Descriptions.Item label="序列号">
+								<Descriptions.Item label={t('序列号')}>
 									{productOnChain.serialNumber}
 								</Descriptions.Item>
-								<Descriptions.Item label="生产日期">
+								<Descriptions.Item label={t('生产日期')}>
 									{BigInt2Date(
 										productOnChain.manufactureDate,
 									).toLocaleString()}
@@ -103,7 +105,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 						.map((po) => {
 							return [
 								{
-									title: '订单',
+									title: t('订单'),
 									icon: <TruckOutlined />,
 									description: (
 										<Descriptions
@@ -114,21 +116,31 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 												content: { fontSize: 12 },
 											}}
 										>
-											<Descriptions.Item label="订单编号">
+											<Descriptions.Item
+												label={t('订单编号')}
+											>
 												{po.orderId}
 											</Descriptions.Item>
-											<Descriptions.Item label="成交价格">
+											<Descriptions.Item
+												label={t('成交价格')}
+											>
 												<ClientCryptoPrice
 													value={po.lockedPrice}
 												/>
 											</Descriptions.Item>
-											<Descriptions.Item label="发货地址">
+											<Descriptions.Item
+												label={t('发货地址')}
+											>
 												{po.shippingOriginAddress}
 											</Descriptions.Item>
-											<Descriptions.Item label="发货人">
+											<Descriptions.Item
+												label={t('发货人')}
+											>
 												{po.sellerName}
 											</Descriptions.Item>
-											<Descriptions.Item label="成交时间">
+											<Descriptions.Item
+												label={t('成交时间')}
+											>
 												{new Date(
 													Number(
 														po.timestamp * 1000n,
@@ -142,8 +154,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 									title:
 										offlineOrdersData.get(po.orderId)?.buyer
 											.role === Role.DISTRIBUTOR
-											? '销售商'
-											: '消费者',
+											? t('销售商')
+											: t('消费者'),
 									icon:
 										offlineOrdersData.get(po.orderId)?.buyer
 											.role === Role.DISTRIBUTOR ? (
@@ -167,11 +179,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 												content: { fontSize: 12 },
 											}}
 										>
-											<Descriptions.Item label="收货地址">
+											<Descriptions.Item
+												label={t('收货地址')}
+											>
 												{po.shippingDestinationAddress}
 											</Descriptions.Item>
 
-											<Descriptions.Item label="收货人">
+											<Descriptions.Item
+												label={t('收货人')}
+											>
 												{po.buyerName}
 											</Descriptions.Item>
 										</Descriptions>

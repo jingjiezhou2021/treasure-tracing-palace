@@ -1,9 +1,11 @@
+import { getT } from '@/app/i18n';
 import { fetchCommodoties, fetchUserByEmail } from '@/app/lib/data';
 import CardsGrid from '@/app/ui/components/cardsGrid';
 import { auth } from '@/auth';
 import { ProductStatus } from '@/generated/prisma';
 
 export default async function Page() {
+	const { t } = await getT('dashboard');
 	const session = await auth();
 	const user = await fetchUserByEmail(session?.user?.email!);
 	const commodoties = (await fetchCommodoties()).filter((c) => {
@@ -20,7 +22,7 @@ export default async function Page() {
 					description: (
 						<>
 							<span className="block">
-								库存数量：
+								{t('库存数量：')}
 								{
 									c.productType.products.filter(
 										(p) =>
@@ -29,7 +31,7 @@ export default async function Page() {
 								}
 							</span>
 							<span className="block">
-								销售商：
+								{t('销售商：')}
 								{c.creator.mycompany?.name ??
 									c.creator.foundedCompany[0].name ??
 									c.creator.email}

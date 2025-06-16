@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/app/i18n/client';
 import { createOrder } from '@/app/lib/actions';
 import { fetchUserByEmail } from '@/app/lib/data';
 import ClientCryptoPrice from '@/app/ui/components/ClientCryptoPrice';
@@ -25,6 +26,7 @@ export default function ProductPurchaseForm({
 		val: Parameters<typeof createOrder>[0]['order_info'],
 	) => Promise<void>;
 }) {
+	const { t } = useT('dashboard');
 	const [messageApi, contextHolder] = message.useMessage();
 	const session = useSession();
 	const router = useRouter();
@@ -41,25 +43,25 @@ export default function ProductPurchaseForm({
 		},
 		validationSchema: Yup.object({
 			quantity: Yup.number()
-				.min(1, '数量不能小于1')
-				.required('请填写购买数量'),
-			shippingAddress: Yup.string().required('请填写收货地址'),
-			recipientName: Yup.string().required('请填写收货人姓名'),
+				.min(1, t('数量不能小于1'))
+				.required(t('请填写购买数量')),
+			shippingAddress: Yup.string().required(t('请填写收货地址')),
+			recipientName: Yup.string().required(t('请填写收货人姓名')),
 			phoneNumber: Yup.string()
-				.matches(/^1[3-9]\d{9}$/, '手机号格式不正确')
-				.required('请填写联系电话'),
-			buyerId: Yup.string().required('买家id未加载成功'),
+				.matches(/^1[3-9]\d{9}$/, t('手机号格式不正确'))
+				.required(t('请填写联系电话')),
+			buyerId: Yup.string().required(t('买家id未加载成功')),
 		}),
 		onSubmit: (values) => {
 			handleSubmit(values)
 				.then(() => {
-					return messageApi.success('购买商品成功');
+					return messageApi.success(t('购买商品成功'));
 				})
 				.then(() => {
 					router.push('/dashboard');
 				})
 				.catch(() => {
-					messageApi.error('购买商品失败');
+					messageApi.error(t('购买商品失败'));
 				});
 		},
 	});
@@ -87,7 +89,9 @@ export default function ProductPurchaseForm({
 		>
 			{contextHolder}
 			<div>
-				<label className="block font-semibold mb-1">购买数量</label>
+				<label className="block font-semibold mb-1">
+					{t('购买数量')}
+				</label>
 				<InputNumber
 					name="quantity"
 					min={1}
@@ -110,7 +114,9 @@ export default function ProductPurchaseForm({
 			</div>
 
 			<div>
-				<label className="block font-semibold mb-1">收货地址</label>
+				<label className="block font-semibold mb-1">
+					{t('收货地址')}
+				</label>
 				<Input
 					type="text"
 					name="shippingAddress"
@@ -128,7 +134,9 @@ export default function ProductPurchaseForm({
 			</div>
 
 			<div>
-				<label className="block font-semibold mb-1">收货人姓名</label>
+				<label className="block font-semibold mb-1">
+					{t('收货人姓名')}
+				</label>
 				<Input
 					type="text"
 					name="recipientName"
@@ -146,7 +154,9 @@ export default function ProductPurchaseForm({
 			</div>
 
 			<div>
-				<label className="block font-semibold mb-1">联系电话</label>
+				<label className="block font-semibold mb-1">
+					{t('联系电话')}
+				</label>
 				<Input
 					type="tel"
 					name="phoneNumber"
@@ -163,7 +173,9 @@ export default function ProductPurchaseForm({
 			</div>
 
 			<div>
-				<label className="block font-semibold mb-1">花费：</label>
+				<label className="block font-semibold mb-1">
+					{t('花费：')}
+				</label>
 				<ClientCryptoPrice value={totalCost} />
 			</div>
 			<Button
@@ -171,7 +183,7 @@ export default function ProductPurchaseForm({
 				type="primary"
 				loading={formik.isSubmitting}
 			>
-				提交订单
+				{t('提交订单')}
 			</Button>
 		</form>
 	);

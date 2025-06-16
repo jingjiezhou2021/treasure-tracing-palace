@@ -3,6 +3,7 @@ import { UsdtCircleColorful } from '@/app/ui/components/ClientIcons/index';
 import { Image } from 'antd';
 import { ReactNode } from 'react';
 import { fetchProductTypeById } from '@/app/lib/data';
+import { getT } from '@/app/i18n';
 export default async function PurchaseInfo({
 	product_type,
 	children,
@@ -10,6 +11,7 @@ export default async function PurchaseInfo({
 	product_type: NonNullable<Awaited<ReturnType<typeof fetchProductTypeById>>>;
 	children?: ReactNode;
 }) {
+	const { t } = await getT('dashboard');
 	return (
 		<div className="p-6 max-w-4xl mx-auto space-y-6">
 			<h1 className="text-2xl font-bold">{product_type.name}</h1>
@@ -20,15 +22,16 @@ export default async function PurchaseInfo({
 			/>
 			<div className="grid grid-cols-2 gap-4 mt-4">
 				<div>
-					<strong>制造商：</strong>{' '}
+					<strong>{t('制造商：')}</strong>
 					{product_type.manufacturerCompany.name}
 				</div>
 				<div>
-					<strong>库存数量：</strong> {product_type.products.length}
+					<strong>{t('库存数量：')}</strong>{' '}
+					{product_type.products.length}
 				</div>
 			</div>
 			<div>
-				<strong>价格：</strong>{' '}
+				<strong>{t('价格：')}</strong>
 				<ClientCryptoPrice value={product_type.price} />
 			</div>
 			{children}

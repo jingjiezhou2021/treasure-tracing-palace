@@ -1,4 +1,5 @@
 'use client';
+import { useT } from '@/app/i18n/client';
 import { ProductStatusToString } from '@/app/lib/utils';
 import { products, ProductStatus } from '@/generated/prisma';
 import { Button, Space, Table } from 'antd';
@@ -11,17 +12,18 @@ export default function ProductsTable({
 	products: products[];
 	actionArea: (id: number) => ReactNode;
 }) {
+	const { t } = useT('dashboard');
 	return (
 		<Table<products>
 			dataSource={products}
 			columns={[
 				{
-					title: '商品序列号',
+					title: t('商品序列号'),
 					dataIndex: 'serialNumber',
 					key: 'serialNumber',
 				},
 				{
-					title: '生产日期',
+					title: t('生产日期'),
 					dataIndex: 'manufactureDate',
 					key: 'manufactureDate',
 					render(val: Date) {
@@ -29,7 +31,7 @@ export default function ProductsTable({
 					},
 				},
 				{
-					title: '登记日期',
+					title: t('登记日期'),
 					dataIndex: 'createdAt',
 					key: 'createdAt',
 					render(val: Date) {
@@ -37,7 +39,7 @@ export default function ProductsTable({
 					},
 				},
 				{
-					title: '状态',
+					title: t('状态'),
 					dataIndex: 'status',
 					key: 'status',
 					render(val: ProductStatus) {
@@ -45,7 +47,7 @@ export default function ProductsTable({
 					},
 				},
 				{
-					title: '操作',
+					title: t('操作'),
 					key: 'action',
 					render: (_, record) => (
 						<Space size="middle">{actionArea(record.id)}</Space>

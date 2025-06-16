@@ -4,7 +4,12 @@ import {
 	fetchUsers,
 } from '@/app/lib/data';
 import CreateProductForm from './CreateProductForm';
-
+import { Metadata } from 'next';
+import { getT } from '@/app/i18n';
+export async function generateMetadata(): Promise<Metadata> {
+	const { t } = await getT('dashboard');
+	return { title: t('登记商品') };
+}
 const CreateProductPage = async ({
 	params,
 }: {
