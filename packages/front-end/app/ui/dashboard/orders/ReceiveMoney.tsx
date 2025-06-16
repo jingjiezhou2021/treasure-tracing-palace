@@ -10,11 +10,13 @@ import { useState } from 'react';
 import { Address } from '@ant-design/web3';
 import { OrderStatus } from '@/generated/prisma';
 import { useRouter } from 'next/navigation';
+import { useT } from '@/app/i18n/client';
 export default function ReceiveMoney({
 	order,
 }: {
 	order: NonNullable<Awaited<ReturnType<typeof fetchOrderById>>>;
 }) {
+	const { t } = useT('dashboard');
 	const router = useRouter();
 	const { address, isConnected } = useAccount();
 	const { signMessageAsync } = useSignMessage();
@@ -25,7 +27,8 @@ export default function ReceiveMoney({
 		<section className="mb-6">
 			{contextHolder}
 			<h2 className="text-lg font-semibold">
-				{order.status === OrderStatus.PAID ? '已' : ''}领取金额
+				{order.status === OrderStatus.PAID ? '已' : ''}
+				{t('领取金额')}
 			</h2>
 			<p className="text-xl font-bold flex justify-between">
 				<ClientCryptoPrice value={order.totalPrice - 1n} />
@@ -37,7 +40,7 @@ export default function ReceiveMoney({
 					onClick={() => {
 						setIsLoading(true);
 						if (!address || !isConnected) {
-							messageApi.error('未连接钱包');
+							messageApi.error(t('未连接钱包'));
 							setIsLoading(false);
 						} else {
 							signMessageAsync({
@@ -53,21 +56,25 @@ export default function ReceiveMoney({
 								.then((res) => {
 									setTxHash(res);
 									messageApi.success(
-										`领取 ${(
+										`${t('领取')} ${(
 											Number(order.totalPrice) - 1
-										).toString()} USDT成功`,
+										).toString()} USDT${t('成功')}`,
 									);
 									setIsLoading(false);
 									router.refresh();
 								})
 								.catch((err) => {
-									messageApi.error(`领取失败，${err}`);
+									messageApi.error(
+										`${t('领取失败')}，${err}`,
+									);
 									console.error(err);
 								});
 						}
 					}}
 				>
-					{order.status === OrderStatus.PAID ? '已' : ''}领取
+					{order.status === OrderStatus.PAID
+						? t('已领取')
+						: t('领取')}
 				</Button>
 			</p>
 			{txHash !== '' ? (

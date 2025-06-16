@@ -1,5 +1,6 @@
 'use client';
 
+import { useT } from '@/app/i18n/client';
 import { confirmReceiving } from '@/app/lib/actions';
 import { fetchOrderById } from '@/app/lib/data';
 import { OrderStatus } from '@/generated/prisma';
@@ -12,6 +13,7 @@ export default function ConfirmReceive({
 }: {
 	order: NonNullable<Awaited<ReturnType<typeof fetchOrderById>>>;
 }) {
+	const { t } = useT('dashboard');
 	const [messageApi, contextHolder] = message.useMessage();
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +29,7 @@ export default function ConfirmReceive({
 					setIsLoading(true);
 					confirmReceiving(order)
 						.then(() => {
-							return messageApi.success('确认收货成功');
+							return messageApi.success(t('确认收货成功'));
 						})
 						.then(() => {
 							setIsLoading(false);
@@ -35,7 +37,7 @@ export default function ConfirmReceive({
 						});
 				}}
 			>
-				确认收货
+				{t('确认收货')}
 			</Button>
 		</>
 	);

@@ -7,17 +7,19 @@ import * as Yup from 'yup';
 import { addShippingInfo } from '@/app/lib/actions';
 import { useRouter } from 'next/navigation';
 import { orders, OrderStatus } from '@/generated/prisma';
-
-const validationSchema = Yup.object().shape({
-	address: Yup.string().required('请输入发货地址'),
-	sender: Yup.string().required('请输入发货人姓名'),
-	phone: Yup.string()
-		.required('请输入联系电话')
-		.matches(/^\d{11}$/, '请输入有效的11位手机号'),
-	trackingNumber: Yup.string().required('请输入快递单号'),
-});
+import { useT } from '@/app/i18n/client';
 
 export default function ShipModal({ order }: { order: orders }) {
+	const { t } = useT('dashboard');
+	const validationSchema = Yup.object().shape({
+		address: Yup.string().required(t('请输入发货地址')),
+		sender: Yup.string().required(t('请输入发货人姓名')),
+		phone: Yup.string()
+			.required(t('请输入联系电话'))
+			.matches(/^\d{11}$/, t('请输入有效的11位手机号')),
+		trackingNumber: Yup.string().required(t('请输入快递单号')),
+	});
+
 	const order_id = order.id;
 	const router = useRouter();
 	const [visible, setVisible] = useState(false);
@@ -28,11 +30,11 @@ export default function ShipModal({ order }: { order: orders }) {
 			{contextHolder}
 			{order.status === OrderStatus.PENDING ? (
 				<Button type="primary" onClick={() => setVisible(true)}>
-					发货
+					{t('发货')}
 				</Button>
 			) : null}
 			<Modal
-				title="填写发货信息"
+				title={t('填写发货信息')}
 				open={visible}
 				onCancel={() => setVisible(false)}
 				footer={null}
@@ -49,7 +51,7 @@ export default function ShipModal({ order }: { order: orders }) {
 					validationSchema={validationSchema}
 					onSubmit={(val) => {
 						addShippingInfo(val).then(() => {
-							messageApi.success('发货成功');
+							messageApi.success(t('发货成功'));
 							setVisible(false);
 							router.refresh();
 						});
@@ -66,7 +68,7 @@ export default function ShipModal({ order }: { order: orders }) {
 					}) => (
 						<Form layout="vertical" onFinish={handleSubmit}>
 							<Form.Item
-								label="发货地址"
+								label={t('发货地址')}
 								validateStatus={
 									touched.address && errors.address
 										? 'error'
@@ -83,7 +85,7 @@ export default function ShipModal({ order }: { order: orders }) {
 								/>
 							</Form.Item>
 							<Form.Item
-								label="发货人姓名"
+								label={t('发货人姓名')}
 								validateStatus={
 									touched.sender && errors.sender
 										? 'error'
@@ -100,7 +102,7 @@ export default function ShipModal({ order }: { order: orders }) {
 								/>
 							</Form.Item>
 							<Form.Item
-								label="联系电话"
+								label={t('联系电话')}
 								validateStatus={
 									touched.phone && errors.phone ? 'error' : ''
 								}
@@ -115,7 +117,7 @@ export default function ShipModal({ order }: { order: orders }) {
 								/>
 							</Form.Item>
 							<Form.Item
-								label="快递单号"
+								label={t('快递单号')}
 								validateStatus={
 									touched.trackingNumber &&
 									errors.trackingNumber
@@ -143,7 +145,7 @@ export default function ShipModal({ order }: { order: orders }) {
 									block
 									loading={isSubmitting}
 								>
-									确认发货
+									{t('确认发货')}
 								</Button>
 							</Form.Item>
 						</Form>
