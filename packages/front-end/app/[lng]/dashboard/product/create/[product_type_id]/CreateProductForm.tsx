@@ -1,4 +1,5 @@
 'use client';
+import { useT } from '@/app/i18n/client';
 import { createProduct } from '@/app/lib/actions';
 import { fetchUserByEmail } from '@/app/lib/data';
 import {
@@ -28,6 +29,7 @@ export default function CreateProductForm({
 	companies: companies[];
 	users: users[];
 }) {
+	const { t } = useT('dashboard');
 	const session = useSession();
 	const [messageApi, contextHolder] = useMessage();
 	const router = useRouter();
@@ -44,8 +46,8 @@ export default function CreateProductForm({
 			creatorId: '',
 		},
 		validationSchema: Yup.object({
-			serialNumber: Yup.string().required('序列号不能为空'),
-			manufactureDate: Yup.date().required('生产日期不能为空'),
+			serialNumber: Yup.string().required(t('序列号不能为空')),
+			manufactureDate: Yup.date().required(t('生产日期不能为空')),
 		}),
 		onSubmit: async () => {
 			// 提交交给 form 的 action，不在这里处理
@@ -53,14 +55,14 @@ export default function CreateProductForm({
 				await createProduct(formik.values as any);
 				await messageApi.open({
 					type: 'success',
-					content: '添加商品记录成功',
+					content: t('添加商品记录成功'),
 				});
 				router.push('/dashboard/warehouse');
 			} catch (err) {
 				console.error(err);
 				messageApi.open({
 					type: 'error',
-					content: '添加商品记录失败',
+					content: t('添加商品记录失败'),
 				});
 			}
 		},
@@ -81,19 +83,23 @@ export default function CreateProductForm({
 	return (
 		<div className="p-8">
 			{contextHolder}
-			<h1 className="text-2xl font-bold mb-6">新增商品记录</h1>
+			<h1 className="text-2xl font-bold mb-6">{t('新增商品记录')}</h1>
 			<form
 				onSubmit={formik.handleSubmit} // 表单提交目标
 				className="max-w-xl space-y-4"
 			>
 				{/* 👇 不可编辑但展示 */}
 				<div>
-					<label className="block mb-2 font-medium">商品名称</label>
+					<label className="block mb-2 font-medium">
+						{t('商品名称')}
+					</label>
 					<Input name="name" value={product_type.name} disabled />
 				</div>
 
 				<div>
-					<label className="block mb-2 font-medium">商品描述</label>
+					<label className="block mb-2 font-medium">
+						{t('商品描述')}
+					</label>
 					<Input.TextArea
 						name="description"
 						disabled
@@ -103,7 +109,9 @@ export default function CreateProductForm({
 				</div>
 
 				<div>
-					<label className="block mb-2 font-medium">制造公司</label>
+					<label className="block mb-2 font-medium">
+						{t('制造公司')}
+					</label>
 					<Select
 						className="w-full"
 						disabled
@@ -115,7 +123,9 @@ export default function CreateProductForm({
 				</div>
 
 				<div>
-					<label className="block mb-2 font-medium">设置价格</label>
+					<label className="block mb-2 font-medium">
+						{t('设置价格')}
+					</label>
 					<CryptoPrice
 						icon={<UsdtCircleColorful />}
 						value={product_type.price * 100_0000n}
@@ -125,13 +135,15 @@ export default function CreateProductForm({
 				</div>
 
 				<div>
-					<label className="block mb-2 font-medium">序列号</label>
+					<label className="block mb-2 font-medium">
+						{t('序列号')}
+					</label>
 					<Input
 						name="serialNumber"
 						value={formik.values.serialNumber}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
-						placeholder="请输入序列号"
+						placeholder={t('请输入序列号')}
 					/>
 					{formik.touched.serialNumber &&
 					formik.errors.serialNumber ? (
@@ -141,11 +153,13 @@ export default function CreateProductForm({
 					) : null}
 				</div>
 				<div>
-					<label className="block mb-2 font-medium">制造日期</label>
+					<label className="block mb-2 font-medium">
+						{t('制造日期')}
+					</label>
 					<DatePicker
 						className="w-full"
 						name="manufactureDate"
-						placeholder="选择商品制造日期"
+						placeholder={t('选择商品制造日期')}
 						showTime
 						value={
 							formik.values.manufactureDate
@@ -170,12 +184,12 @@ export default function CreateProductForm({
 
 				<div>
 					<label className="block mb-2 font-medium">
-						商品登记日期
+						{t('商品登记日期')}
 					</label>
 					<DatePicker
 						className="w-full"
 						name="createdAt"
-						placeholder="商品登记日期（当前）"
+						placeholder={t('商品登记日期（当前）')}
 						showTime
 						disabled
 						value={currentTime}
@@ -186,7 +200,7 @@ export default function CreateProductForm({
 				</div>
 				<div>
 					<label className="block mb-2 font-medium">
-						商品登记负责人
+						{t('商品登记负责人')}
 					</label>
 					<Select
 						className="w-full"
@@ -204,14 +218,14 @@ export default function CreateProductForm({
 					className="mr-4"
 					loading={formik.isSubmitting}
 				>
-					提交
+					{t('提交')}
 				</Button>
 				<Button
 					htmlType="button"
 					onClick={() => formik.resetForm()} // ✨ 直接清空表单
 					className="mr-4"
 				>
-					重置
+					{t('重置')}
 				</Button>
 				<Button
 					htmlType="button"
@@ -221,7 +235,7 @@ export default function CreateProductForm({
 						router.back();
 					}}
 				>
-					返回
+					{t('返回')}
 				</Button>
 			</form>
 		</div>

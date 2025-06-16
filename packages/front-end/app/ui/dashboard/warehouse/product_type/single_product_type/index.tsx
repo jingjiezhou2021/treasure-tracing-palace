@@ -29,6 +29,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import * as Yup from 'yup';
 import { parseUnits } from 'viem';
 import useUSDTDecimals from '../../../hooks/USDTDecimals';
+import { useT } from '@/app/i18n/client';
 
 const SingleProductTypeForm: React.FC<{
 	product_type?: product_types;
@@ -36,6 +37,7 @@ const SingleProductTypeForm: React.FC<{
 		form: Parameters<typeof createProductType>[0],
 	) => void | Promise<void>;
 }> = ({ product_type, handleSubmit }) => {
+	const { t } = useT('dashboard');
 	const [messageApi, contextHolder] = message.useMessage();
 	const [displayPreview, setDisplayPreview] = useState(false);
 	const session = useSession();
@@ -52,10 +54,10 @@ const SingleProductTypeForm: React.FC<{
 			coverCid: product_type?.coverCid ?? (null as string | null),
 		},
 		validationSchema: Yup.object({
-			name: Yup.string().required('商品名称不能为空'),
-			price: Yup.number().required('商品价格不能为空'),
+			name: Yup.string().required(t('商品名称不能为空')),
+			price: Yup.number().required(t('商品价格不能为空')),
 			description: Yup.string(),
-			coverCid: Yup.string().required('商品图片不能为空'),
+			coverCid: Yup.string().required(t('商品图片不能为空')),
 		}),
 		onSubmit: async () => {
 			// 提交交给 form 的 action，不在这里处理
@@ -63,14 +65,14 @@ const SingleProductTypeForm: React.FC<{
 				await handleSubmit(formik.values as any);
 				await messageApi.open({
 					type: 'success',
-					content: '商品操作成功',
+					content: t('商品操作成功'),
 				});
 				router.replace('/dashboard/warehouse');
 			} catch (err) {
 				console.error(err);
 				messageApi.open({
 					type: 'error',
-					content: '商品操作失败',
+					content: t('商品操作失败'),
 				});
 			}
 		},
@@ -110,13 +112,15 @@ const SingleProductTypeForm: React.FC<{
 				className="max-w-xl space-y-4"
 			>
 				<div>
-					<label className="block mb-2 font-medium">商品名称</label>
+					<label className="block mb-2 font-medium">
+						{t('商品名称')}
+					</label>
 					<Input
 						name="name"
 						value={formik.values.name}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
-						placeholder="请输入商品名称"
+						placeholder={t('请输入商品名称')}
 						disabled={pathname.includes('update')}
 					/>
 					{formik.touched.name && formik.errors.name ? (
@@ -127,7 +131,9 @@ const SingleProductTypeForm: React.FC<{
 				</div>
 
 				<div>
-					<label className="block mb-2 font-medium">商品图片</label>
+					<label className="block mb-2 font-medium">
+						{t('商品图片')}
+					</label>
 					<Upload
 						listType="picture-card"
 						accept="image/*"
@@ -152,7 +158,7 @@ const SingleProductTypeForm: React.FC<{
 						{fileList.length < 1 && (
 							<button className="border-none bg-transparent block">
 								<PlusOutlined />
-								<div className="mt-2">上传图片</div>
+								<div className="mt-2">{t('上传图片')}</div>
 							</button>
 						)}
 					</Upload>
@@ -176,21 +182,25 @@ const SingleProductTypeForm: React.FC<{
 				</div>
 
 				<div>
-					<label className="block mb-2 font-medium">商品描述</label>
+					<label className="block mb-2 font-medium">
+						{t('商品描述')}
+					</label>
 					<Input.TextArea
 						name="description"
 						value={formik.values.description}
 						onChange={formik.handleChange}
 						onBlur={formik.handleBlur}
 						rows={4}
-						placeholder="请输入商品描述"
+						placeholder={t('请输入商品描述')}
 					/>
 				</div>
 
 				{/* 👇 不可编辑但展示 */}
 
 				<div>
-					<label className="block mb-2 font-medium">制造公司</label>
+					<label className="block mb-2 font-medium">
+						{t('制造公司')}
+					</label>
 					<Select
 						className="w-full"
 						disabled
@@ -201,7 +211,9 @@ const SingleProductTypeForm: React.FC<{
 					/>
 				</div>
 				<div>
-					<label className="block mb-2 font-medium">设置价格</label>
+					<label className="block mb-2 font-medium">
+						{t('设置价格')}
+					</label>
 					<CryptoInput
 						disabled
 						value={{
@@ -240,7 +252,7 @@ const SingleProductTypeForm: React.FC<{
 						className="mr-4"
 						loading={formik.isSubmitting}
 					>
-						修改
+						{t('修改')}
 					</Button>
 				) : (
 					<Button
@@ -249,7 +261,7 @@ const SingleProductTypeForm: React.FC<{
 						className="mr-4"
 						loading={formik.isSubmitting}
 					>
-						提交
+						{t('提交')}
 					</Button>
 				)}
 
@@ -260,7 +272,7 @@ const SingleProductTypeForm: React.FC<{
 					}} // ✨ 直接清空表单
 					className="mr-4"
 				>
-					重置
+					{t('重置')}
 				</Button>
 				<Button
 					htmlType="button"
@@ -270,7 +282,7 @@ const SingleProductTypeForm: React.FC<{
 						router.back();
 					}}
 				>
-					返回
+					{t('返回')}
 				</Button>
 			</form>
 		</div>
