@@ -466,7 +466,7 @@ yarn
 控制台切换路径到`packages/smart-contract`
 
 ```shell
-cd packages/smart-contract
+cd ../smart-contract
 ```
 
 本地启动hardhat node

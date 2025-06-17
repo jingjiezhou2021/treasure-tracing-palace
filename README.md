@@ -445,7 +445,7 @@ yarn
 Change directory to `packages/smart-contract`
 
 ```shell
-cd packages/smart-contract
+cd ../smart-contract
 ```
 
 Launch hardhat nodes
