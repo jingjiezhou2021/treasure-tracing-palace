@@ -495,7 +495,7 @@ NEXT_PUBLIC_ORDER_REGISTRY= # OrderRegistry contract address
 Change directory to `packages/front-end`
 
 ```shell
-cd packages/front-end
+cd ../front-end
 ```
 
 Run dev script

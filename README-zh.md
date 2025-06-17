@@ -515,7 +515,7 @@ NEXT_PUBLIC_ORDER_REGISTRY= #订单管理合约地址
 控制台切换路径到`packages/front-end`
 
 ```shell
-cd packages/front-end
+cd ../front-end
 ```
 
 执行启动脚本
