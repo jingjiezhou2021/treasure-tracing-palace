@@ -110,7 +110,7 @@
 <!-- ABOUT THE PROJECT -->
 # About the Project📖
 
-![项目截图](/images/readme/entry.png)
+![项目截图](/images/readme/en/entry.png)
 
 Treasure Tracing Palace is a decentralized supply chain platform built to help track and validate high-value products using blockchain. It drastically reduces counterfeit risk—for example, in pharmaceuticals and branded goods—by making every transaction transparent and verifiable.
 
@@ -120,64 +120,65 @@ Our platform uses USDT as the payment currency.
 
 ## Feature Modules
 
-![Feature Modules](/images/readme/function-modules-graph.png)
+![Feature Modules](/images/readme/en/function-modules-graph.png)
 
 ### Manufacturer 🏭
 
 #### Create Product Type
 
-![Create Product Type](/images/readme/create_product_type.png)
+![Create Product Type](/images/readme/en/create_product_type.png)
 
 #### Register Product Instance
 
-![register product](/images/readme/record_product.png)
+![register product](/images/readme/en/record_product.png)
 
 #### Inventory Management
-![inventory management](/images/readme/warehouse_management.png)
+![inventory management](/images/readme/en/warehouse_management.png)
 
 #### Order Management
-![order management](/images/readme/order_management.png)
+![order management](/images/readme/en/order_management.png)
 
 #### Product Traceability  
-![traceability step 1](/images/readme/tracing_management.png)  
-![traceability step 2](/images/readme/tracing_management1.png)  
-![traceability step 3](/images/readme/tracing_management2.png)
+![traceability step 1](/images/readme/en/tracing_management.png)  
+![traceability step 2](/images/readme/en/tracing_management1.png)  
+![traceability step 3](/images/readme/en/tracing_management2.png)
 
 
 
 ### Distributor 🏪
 
 #### Product Procurement  
-![procurement](/images/readme/purchasing.png)
+
+![procurement](/images/readme/en/purchasing.png)
 
 #### Inventory Management  
-![distributor inventory](/images/readme/warehouse_management_distributor.png)
+![distributor inventory](/images/readme/en/warehouse_management_distributor.png)
 
 #### Retail Products  
-![retail product 1](/images/readme/retailing1.png)  
-![retail product 2](/images/readme/retailing2.png)  
-![retail product 3](/images/readme/retailing3.png)
+![retail product 1](/images/readme/en/retailing1.png)  
+![retail product 2](/images/readme/en/retailing2.png)  
+![retail product 3](/images/readme/en/retailing3.png)
 
 #### Order Management  
-![distributor orders](/images/readme/order_management_distributor.png)
+![distributor orders](/images/readme/en/order_management_distributor.png)
 
 #### Product Traceability  
-![distributor traceability 1](/images/readme/tracing_management_distributor1.png)  
-![distributor traceability 2](/images/readme/tracing_management_distributor2.png)
+![distributor traceability 1](/images/readme/en/tracing_management_distributor1.png)  
+![distributor traceability 2](/images/readme/en/tracing_management_distributor2.png)
 
 ### Consumer 🛍️
 
 #### Browse Products  
-![browse products](/images/readme/browse_commodoties.png)
+![browse products](/images/readme/en/browse_commodoties.png)
 
 #### Purchase Products  
-![purchase products](/images/readme/buy_commodoty.png)
+![purchase products](/images/readme/en/buy_commodoty.png)
 
 #### Order Management  
-![consumer orders](/images/readme/order_management_customer.png)
+![consumer orders](/images/readme/en/order_management_customer.png)
 
 #### Product Traceability  
-![consumer traceability](/images/readme/tracing_management_customer.png)
+![consumer traceability](/images/readme/en/tracing_management_customer.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -207,7 +208,7 @@ Our platform uses USDT as the payment currency.
 
 ## Architecture 🏢
 
-![architecture](/images/readme/tech-architectur.png)
+![architecture](/images/readme/en/tech-architectur.png)
 
 The overall layered architecture design of this project can be divided into the following six layers:
 
@@ -509,7 +510,7 @@ Server started
 
 Open `localhost:3000` in the browser
 
-![dev-server-browser](./images/readme/dev-server-browser.png)
+![dev-server-browser](./images/readme/en/dev-server-browser.png)
 
 To reach full capabilities of the project you need to configure [Other Environment variables](#-configure-environment-variables)
 
@@ -685,7 +686,7 @@ yarn start
 
 Open `localhost:3000` in the browser
 
-![start](./images/readme/start.png)
+![start](./images/readme/en/start.png)
 
 ### Publish Vercel
 
